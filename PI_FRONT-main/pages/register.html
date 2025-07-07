@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inscription - Theses MR</title>
+  <style>
+   .dropdown {
+  position: absolute;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  max-height: 150px; /* Limit height to make it compact */
+  overflow-y: auto; /* Enable vertical scrolling */
+  width: 300px; /* Set a fixed width for the dropdown */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add shadow for better visibility */
+  z-index: 10; /* Ensure it appears above other elements */
+}
+
+.dropdown-item {
+  cursor: pointer;
+  padding: 8px 12px;
+  border-bottom: 1px solid #f0f0f0; /* Add subtle separation between items */
+}
+
+.dropdown-item:hover {
+  background-color: #e0e0e0; /* Highlight on hover */
+}
+
+.hidden {
+  display: none; /* Hide the dropdown when not active */
+}
+
+.tags-container {
+  margin-top: 10px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 5px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.tag:hover {
+  background-color: #0056b3;
+}
+  </style>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <script src="../js/main.js" defer></script>
+  <script src="../js/auth.js" defer></script>
+</head>
+<body>
+  <header class="site-header minimal">
+    <div class="container">
+      <div class="logo">
+        <a href="../index.html">
+          <h1>Theses MR</h1>
+          <span>Système de gestion de doctorat</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="site-main auth-main">
+    <div class="container">
+      <div class="auth-container">
+        <div class="auth-card registration">
+          <div class="auth-header">
+            <h2>Créez votre compte</h2>
+            <p>Inscrivez-vous pour gérer votre parcours doctoral</p>
+            <div class="form-progress">
+              <div class="progress-step active" data-step="personal">Personnel</div>
+              <div class="progress-step" data-step="academic">Académique</div>
+              <div class="progress-step" data-step="thesis">Thèse</div>
+            </div>
+          </div>
+          
+          <form id="register-form" class="auth-form multi-step">
+            <!-- Étape 1 : Informations personnelles -->
+            <div class="form-step active" id="step-personal">
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="firstname">Prénom</label>
+                  <input type="text" id="firstname" name="firstname" required>
+                </div>
+                <div class="form-group">
+                  <label for="lastname">Nom</label>
+                  <input type="text" id="lastname" name="lastname" required>
+                </div>
+              </div>
+              <!-- <div class="form-group">
+                  <label for="username">Nom</label>
+                  <input type="text" id="username" name="username" required>
+                </div>
+              </div> -->
+              
+              <div class="form-group">
+                <label for="email">Adresse email</label>
+                <input type="email" id="email" name="email" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" name="password" required>
+                <div class="password-toggle">
+                  <button type="button" id="toggle-password" aria-label="Afficher/masquer le mot de passe"></button>
+                </div>
+              </div>
+              
+               <div class="form-group">
+  <label for="role">Rôle</label>
+  <select id="role" name="role" required>
+    <!-- <option value="">Sélectionnez un rôle</option> -->
+    <!-- <option value="administrateur">Administrateur</option> -->
+    <option value="directeur">Directeur</option>
+    <!-- <option value="docteur">Docteur</option> -->
+    <option value="encadrant">Encadrant</option>
+    <option value="doctorant">Doctorant</option>
+  </select>
+</div>
+
+
+<div id="encadrant-fields" class="encadrant-specific" style="display: none;">
+  <div class="form-group">
+    <label for="grade">Grade</label>
+    <input type="text" id="grade" name="grade" placeholder="Ex: Professeur, Maître de Conférences">
+  </div>
+  
+  <div class="form-group">
+    <label for="specialite">Spécialité</label>
+    <input type="text" id="specialite" name="specialite" placeholder="Votre domaine de spécialité">
+  </div>
+<div class="form-group">
+                <label for="doctoral-school">École doctorale</label>
+                <select id="doctoral-school" name="doctoral-school" required>
+                  <option value="">Sélectionnez une école doctorale</option>
+                  <option value="school1">École d'Ingénierie</option>
+                  <option value="school2">École des Sciences</option>
+                  <option value="school3">École de Médecine</option>
+                  <option value="school4">École de Commerce</option>
+                </select>
+              </div>
+
+</div>
+
+              <div class="form-group-row">
+                <div class="form-group">
+                  <label for="phone">Numéro de téléphone</label>
+                  <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                  <label for="birth-date">Date de naissance</label>
+                  <input type="date" id="birth-date" name="birth-date" required>
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="nationality">Nationalité</label>
+                <input type="text" id="nationality" name="nationality" required>
+              </div>
+              
+              <div class="form-actions" id="personal-actions">
+                <button type="button" class="btn btn-primary btn-next">Continuer</button>
+              </div>
+            </div>
+            
+            <!-- Étape 2 : Informations académiques -->
+            <div class="form-step" id="step-academic">
+              <div class="form-group">
+                <label for="matricule">ID Étudiant (Matricule)</label>
+                <input type="text" id="matricule" name="matricule" required>
+              </div>
+                
+              <!-- <div class="form-group">
+                <label for="research-unit">Unité de recherche</label>
+
+              <select id="research-unit" name="research-unit" required>
+  <option value="">Sélectionnez une unité de recherche</option>
+</select>
+</div>
+
+<div class="form-group">
+                <label for="doctoral-school">École doctorale</label>
+<select id="doctoral-school" name="doctoral-school" required>
+  <option value="">Sélectionnez une école doctorale</option>
+</select>
+ </div> -->
+              
+              <div class="form-group">
+                <label for="research-unit">Unité de recherche</label>
+                <select id="research-unit" name="research-unit" required>
+                  <option value="">Sélectionnez une unité de recherche</option>
+                  <option value="unit1">Unité de recherche en informatique</option>
+                  <option value="unit2">Unité de recherche biomédicale</option>
+                  <option value="unit3">Unité de recherche en physique</option>
+                  <option value="unit4">Unité de recherche en économie</option>
+                </select>
+              </div>
+
+              
+              
+              <div class="form-group">
+                <label for="doctoral-school">École doctorale</label>
+                <select id="doctoral-school" name="doctoral-school" required>
+                  <option value="">Sélectionnez une école doctorale</option>
+                  <option value="school1">École d'Ingénierie</option>
+                  <option value="school2">École des Sciences</option>
+                  <option value="school3">École de Médecine</option>
+                  <option value="school4">École de Commerce</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="director">Directeur de thèse</label>
+                <select id="director" name="director" required>
+                  <option value="">Sélectionnez un directeur de thèse</option>
+                  <option value="director1">Prof. Dupont</option>
+                  <option value="director2">Prof. Martin</option>
+                  <option value="director3">Prof. Bernard</option>
+                  <option value="director4">Prof. Petit</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="supervisor">Superviseur de thèse</label>
+                <select id="supervisor" name="supervisor" required>
+                  <option value="">Sélectionnez un superviseur de thèse</option>
+                  <option value="supervisor1">Dr. Leroy</option>
+                  <option value="supervisor2">Dr. Moreau</option>
+                  <option value="supervisor3">Dr. Simon</option>
+                  <option value="supervisor4">Dr. Laurent</option>
+                </select>
+              </div>
+              
+              <div class="form-actions">
+                <button type="button" class="btn btn-secondary btn-prev">Retour</button>
+                <button type="button" class="btn btn-primary btn-next">Continuer</button>
+              </div>
+            </div>
+            
+            <!-- Étape 3 : Informations sur la thèse -->
+            <div class="form-step" id="step-thesis">
+              <div class="form-group">
+                <label for="thesis-title">Titre de la thèse</label>
+                <input type="text" id="thesis-title" name="thesis-title" required>
+              </div>
+              
+              <div class="form-group">
+                <label for="thesis-summary">Résumé de la thèse</label>
+                <textarea id="thesis-summary" name="thesis-summary" rows="4" required></textarea>
+              </div>
+              
+              <div class="form-group">
+                <label for="start-date">Date d'inscription</label>
+                <input type="date" id="start-date" name="start-date" required>
+              </div>
+              
+              <!-- <div class="form-group">
+                <label for="keywords">Mots-clés (séparés par des virgules)</label>
+                <input type="text" id="keywords" name="keywords" placeholder="IA, Machine Learning, Science des données...">
+              </div> -->
+             <!-- <div>
+  <label for="keywords">Mots-clés</label>
+  <input type="text" id="keywords-input" placeholder="Rechercher des mots-clés..." readonly />
+  <div id="dropdown-container" class="dropdown hidden"></div>
+  <div id="selected-keywords" class="tags-container"></div>
+</div> -->
+
+<!-- <div>
+  <label for="keywords">Mots-clés</label>
+  <input type="text" id="keywords-input" placeholder="Rechercher des mots-clés..." />
+  <div id="dropdown-container" class="dropdown hidden"></div>
+</div> -->
+<!-- <div>
+  <label for="keywords">Mots-clés</label>
+  <input type="text" id="keywords-input" placeholder="Rechercher des mots-clés..." />
+  <div id="dropdown-container" class="dropdown hidden"></div>
+  <div id="selected-keywords" class="tags-container"></div>  
+</div>
+               -->
+
+               <div>
+  <label for="keywords">Mots-clés</label>
+  <input type="text" id="keywords-input" placeholder="Rechercher des mots-clés..." />
+  <div id="dropdown-container" class="dropdown hidden"></div>
+  <div id="selected-keywords" class="tags-container"></div> <!-- Container for selected keywords -->
+</div>
+
+               
+              <div class="form-group checkbox-group">
+                <input type="checkbox" id="terms" name="terms" required>
+                <label for="terms">J'accepte les <a href="#">Conditions générales</a></label>
+              </div>
+              
+              <div class="form-actions">
+                <button type="button" class="btn btn-secondary btn-prev">Retour</button>
+                <button type="submit" class="btn btn-primary">Créer le compte</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        
+        <div class="auth-info">
+          <div class="auth-info-content">
+            <h2>Commencez votre parcours doctoral</h2>
+            <p>Créez un compte pour simplifier votre expérience doctorale et rester organisé tout au long de votre recherche.</p>
+            <ul class="auth-features">
+              <li>Processus d'inscription simple</li>
+              <li>Soumission sécurisée de thèse</li>
+              <li>Suivi en temps réel de la validation</li>
+              <li>Communication directe avec les directeurs</li>
+            </ul>
+            <div class="auth-switch mobile-only">
+              <p>Vous avez déjà un compte ? <a href="login.html">Connexion</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer minimal">
+    <div class="container">
+      <p>&copy; 2025 Theses MR. Tous droits réservés.</p>
+    </div>
+  </footer>
+  <script>
+
+document.addEventListener('DOMContentLoaded', function() {
+  const roleSelect = document.getElementById('role'); 
+  const encadrantFields = document.getElementById('encadrant-fields');
+  
+  if (roleSelect) {
+    roleSelect.addEventListener('change', function() {
+      if (this.value === 'encadrant') {
+        encadrantFields.style.display = 'block';
+      } else {
+        encadrantFields.style.display = 'none';
+      }
+    });
+  }
+});
+
+
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const roleSelect = document.getElementById('role'); 
+  const encadrantFields = document.getElementById('encadrant-fields');
+  const personalActions = document.getElementById('personal-actions');
+  
+  if (roleSelect) {
+    roleSelect.addEventListener('change', function() {
+      if (this.value === 'encadrant') {
+        // Show encadrant fields
+        encadrantFields.style.display = 'block';
+        
+        // Change buttons to submit form directly
+        personalActions.innerHTML = `
+          <button type="submit" class="btn btn-primary">Créer le compte</button>
+        `;
+      } else {
+        // Hide encadrant fields
+        encadrantFields.style.display = 'none';
+        
+        // Restore normal continue button
+        personalActions.innerHTML = `
+          <button type="button" class="btn btn-primary btn-next">Continuer</button>
+        `;
+      }
+    });
+  }
+});
+</script>
+</body>
+</html>

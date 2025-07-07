@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tableau de bord - Theses MR</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <script src="../js/main.js" defer></script>
+  <!-- <script src="../js/TheseMgmt.js"></script> -->
+  <script src="../js/dashboard.js" defer></script>
+  <script src="../js/profile.js" defer></script>
+  <script src="../js/thesis.js" defer></script>
+</head>
+<body>
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <h1>Theses MR</h1>
+        </div>
+        <button id="close-sidebar" class="sidebar-toggle">
+          <span></span>
+        </button>
+      </div>
+      
+      <div class="user-profile">
+        <div class="user-avatar">
+          <div class="avatar-placeholder">JS</div>
+        </div>
+        <div class="user-info">
+          <h3 id="user-name">Jean Dupont</h3>
+          <p id="user-role">Doctorant</p>
+        </div>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="#" class="active" data-section="overview"><span class="nav-icon overview-icon"></span>Aperçu</a></li>
+          <li><a href="#" data-section="profile"><span class="nav-icon profile-icon"></span>Mon Profil</a></li>
+          <li><a href="#" data-section="thesis"><span class="nav-icon thesis-icon"></span>Gestion de Thèse</a></li>
+          <li><a href="#" data-section="supervisors"><span class="nav-icon supervisors-icon"></span>Directeurs</a></li>
+          <li><a href="#" data-section="messages"><span class="nav-icon messages-icon"></span>Messages</a></li>
+          <li><a href="#" data-section="settings"><span class="nav-icon settings-icon"></span>Paramètres</a></li>
+        </ul>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <a href="#" id="logout-btn"><span class="nav-icon logout-icon"></span>Déconnexion</a>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="dashboard-header">
+        <div class="header-left">
+          <button id="open-sidebar" class="sidebar-toggle">
+            <span></span>
+          </button>
+          <h2 class="page-title">Tableau de bord</h2>
+        </div>
+        <div class="header-right">
+          <div class="header-search">
+            <input type="text" placeholder="Rechercher...">
+            <button class="search-btn"></button>
+          </div>
+          <div class="header-notifications">
+            <button class="notification-btn"><span class="badge">3</span></button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Section Aperçu -->
+      <section id="overview" class="dashboard-section active">
+        <div class="section-header">
+          <h2>Aperçu du tableau de bord</h2>
+          <p>Bienvenue, <span id="overview-name">Jean</span> ! Voici l'avancement de votre doctorat.</p>
+        </div>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon research-icon"></div>
+            <div class="stat-info">
+              <h3>Étape de recherche</h3>
+              <p class="stat-value">Rédaction de thèse</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon enrollment-icon"></div>
+            <div class="stat-info">
+              <h3>Année d'inscription</h3>
+              <p class="stat-value">2023</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon thesis-status-icon"></div>
+            <div class="stat-info">
+              <h3>Statut de la thèse</h3>
+              <p class="stat-value status-in-progress">En cours</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon timeline-icon"></div>
+            <div class="stat-info">
+              <h3>Temps restant</h3>
+              <p class="stat-value">2 ans 3 mois</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="dashboard-cards">
+          <div class="card thesis-summary-card">
+            <div class="card-header">
+              <h3>Résumé de la thèse</h3>
+              <a href="#" class="card-action" data-section="thesis">Voir détails</a>
+            </div>
+            <div class="card-body">
+              <h4 id="thesis-title">Applications du Machine Learning dans les Diagnostics Médicaux</h4>
+              <div class="thesis-meta">
+                <span class="label">Soumis :</span> <span id="thesis-date">15 mai 2023</span>
+              </div>
+              <p id="thesis-abstract">Cette recherche explore l'application des algorithmes de machine learning pour améliorer la précision des procédures de diagnostic médical, avec un accent sur la détection précoce des maladies cardiovasculaires.</p>
+              <div class="thesis-progress">
+                <div class="progress-label">
+                  <span>Progression</span>
+                  <span>45%</span>
+                </div>
+                <div class="progress-bar">
+                  <div class="progress" style="width: 45%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card upcoming-card">
+            <div class="card-header">
+              <h3>Échéances à venir</h3>
+              <a href="#" class="card-action">Tout voir</a>
+            </div>
+            <div class="card-body">
+              <ul class="deadline-list">
+                <li class="deadline-item">
+                  <div class="deadline-date">
+                    <span class="month">Juin</span>
+                    <span class="day">15</span>
+                  </div>
+                  <div class="deadline-info">
+                    <h4>Soumission du rapport d'avancement</h4>
+                    <p>Soumettre votre rapport annuel à l'école doctorale</p>
+                  </div>
+                  <div class="deadline-status urgent">
+                    <span>Urgent</span>
+                  </div>
+                </li>
+                <li class="deadline-item">
+                  <div class="deadline-date">
+                    <span class="month">Juil</span>
+                    <span class="day">30</span>
+                  </div>
+                  <div class="deadline-info">
+                    <h4>Chapitre Méthodologie</h4>
+                    <p>Compléter et soumettre à votre directeur pour révision</p>
+                  </div>
+                  <div class="deadline-status upcoming">
+                    <span>À venir</span>
+                  </div>
+                </li>
+                <li class="deadline-item">
+                  <div class="deadline-date">
+                    <span class="month">Sep</span>
+                    <span class="day">10</span>
+                  </div>
+                  <div class="deadline-info">
+                    <h4>Séminaire doctoral annuel</h4>
+                    <p>Préparer une présentation sur l'avancement de votre recherche</p>
+                  </div>
+                  <div class="deadline-status planned">
+                    <span>Planifié</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        
+        <div class="dashboard-cards">
+          <div class="card supervisors-card">
+            <div class="card-header">
+              <h3>Votre équipe de direction</h3>
+              <a href="#" class="card-action" data-section="supervisors">Tout voir</a>
+            </div>
+            <div class="card-body">
+              <div class="supervisor-list">
+                <div class="supervisor-item">
+                  <div class="supervisor-avatar">
+                    <div class="avatar-placeholder">BS</div>
+                  </div>
+                  <div class="supervisor-info">
+                    <h4>Prof. Bernard Simon</h4>
+                    <p>Directeur de thèse</p>
+                    <div class="supervisor-contact">
+                      <a href="mailto:b.simon@universite.edu" class="contact-link email">Email</a>
+                      <a href="#" class="contact-link message">Message</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="supervisor-item">
+                  <div class="supervisor-avatar">
+                    <div class="avatar-placeholder">AD</div>
+                  </div>
+                  <div class="supervisor-info">
+                    <h4>Dr. Alice Dubois</h4>
+                    <p>Superviseur de thèse</p>
+                    <div class="supervisor-contact">
+                      <a href="mailto:a.dubois@universite.edu" class="contact-link email">Email</a>
+                      <a href="#" class="contact-link message">Message</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card resources-card">
+            <div class="card-header">
+                <h3>Ressources doctorales</h3>
+                <a href="#" class="card-action">Tout voir</a>
+              </div>
+              <div class="card-body">
+                <ul class="resources-list">
+                  <li class="resource-item">
+                    <div class="resource-icon document-icon"></div>
+                    <div class="resource-info">
+                      <h4>Directives de mise en forme</h4>
+                      <p>Exigences officielles pour la mise en forme des thèses</p>
+                    </div>
+                    <a id="telecharger-link" href="#" class="resource-action" download>Télécharger</a>
+                  </li>
+                  <li class="resource-item">
+                    <div class="resource-icon calendar-icon"></div>
+                    <div class="resource-info">
+                      <h4>Calendrier académique 2025</h4>
+                      <p>Dates importantes et échéances pour les doctorants</p>
+                    </div>
+                    <a id="voir-link" href="#" class="resource-action" target="_blank" rel="noopener noreferrer">Voir</a>
+                  </li>
+                  <li class="resource-item">
+                    <div class="resource-icon library-icon"></div>
+                    <div class="resource-info">
+                      <h4>Ressources de recherche</h4>
+                      <p>Accès aux revues, bases de données et matériel de recherche</p>
+                    </div>
+                    <a id="acceder-link" href="#" class="resource-action" target="_blank" rel="noopener noreferrer">Accéder</a>
+                  </li>
+                </ul>
+              </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Profil -->
+      <section id="profile" class="dashboard-section">
+        <div class="section-header">
+          <h2>Mon Profil</h2>
+          <p>Gérez vos informations personnelles et académiques</p>
+        </div>
+        
+        <div class="profile-container">
+          <div class="profile-header">
+            <div class="profile-avatar">
+              <div class="avatar-placeholder large">JD</div>
+              <button class="avatar-upload">
+                <span>Changer la photo</span>
+              </button>
+            </div>
+            <div class="profile-summary">
+              <h3 id="profile-name">Jean Dupont</h3>
+              <p id="profile-school">École d'Ingénierie</p>
+              <!-- <p id="profile-status">Doctorant (2ème année)</p> -->
+              <div class="profile-actions">
+                <button id="edit-profile-btn" class="btn btn-secondary">Modifier le profil</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="profile-content">
+            <div class="profile-section">
+              <h3>Informations personnelles</h3>
+              <div class="profile-info-grid" id="personal-info">
+                <div class="info-group">
+                  <span class="info-label">Nom complet</span>
+                  <span class="info-value">Jean Dupont</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Email</span>
+                  <span class="info-value">jean.dupont@universite.edu</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">ID Étudiant</span>
+                  <span class="info-value">PHD20230015</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Téléphone</span>
+                  <span class="info-value">+33 6 12 34 56 78</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Date de naissance</span>
+                  <span class="info-value">15 mars 1990</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Nationalité</span>
+                  <span class="info-value">Française</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="profile-section">
+              <h3>Informations académiques</h3>
+              <div class="profile-info-grid" id="academic-info">
+                <div class="info-group">
+                  <span class="info-label">École doctorale</span>
+                  <span class="info-value">École d'Ingénierie</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Unité de recherche</span>
+                  <span class="info-value">Unité de recherche en informatique</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Directeur de thèse</span>
+                  <span class="info-value">Prof. Bernard Simon</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Superviseur de thèse</span>
+                  <span class="info-value">Dr. Alice Dubois</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Date inscription</span>
+                  <span class="info-value">5 septembre 2023</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Fin prévue</span>
+                  <span class="info-value">Septembre 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formulaire de modification de profil (caché par défaut) -->
+          <div class="profile-edit-form hidden" id="profile-edit-form">
+            <div class="form-header">
+              <h3>Modifier les informations du profil</h3>
+              <button id="cancel-edit-btn" class="btn btn-text">Annuler</button>
+            </div>
+            
+            <form id="edit-profile-form">
+              <div class="form-tabs">
+                <button type="button" class="form-tab active" data-tab="personal">Infos personnelles</button>
+                <button type="button" class="form-tab" data-tab="academic">Infos académiques</button>
+              </div>
+              
+              <div class="form-tab-content active" id="tab-personal">
+                <div class="form-group-row">
+                  <div class="form-group">
+                    <label for="edit-firstname">Prénom</label>
+                    <input type="text" id="edit-firstname" name="firstname" value="Jean">
+                  </div>
+                  <div class="form-group">
+                    <label for="edit-lastname">Nom</label>
+                    <input type="text" id="edit-lastname" name="lastname" value="Dupont">
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-email">Adresse email</label>
+                    <input type="email" id="edit-email" name="email" value="jean.dupont@universite.edu">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-phone">Numéro de téléphone</label>
+                    <input type="tel" id="edit-phone" name="phone" value="+33 6 12 34 56 78">
+                </div>
+                
+                <div class="form-group-row">
+                    <div class="form-group">
+                        <label for="edit-birth-date">Date de naissance</label>
+                        <input type="date" id="edit-birth-date" name="birth-date" value="1990-03-15">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-nationality">Nationalité</label>
+                        <input type="text" id="edit-nationality" name="nationality" value="Française">
+                    </div>
+                </div>
+              </div>
+              
+              <div class="form-tab-content" id="tab-academic">
+                <div class="form-group">
+                    <label for="edit-matricule">ID Étudiant (Matricule)</label>
+                    <input type="text" id="edit-matricule" name="matricule" value="PHD20230015" readonly>
+                    <small class="form-note">L'ID étudiant ne peut pas être modifié</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-research-unit">Unité de recherche</label>
+                    <select id="edit-research-unit" name="research-unit">
+                        <option value="unit1" selected>Unité de recherche en informatique</option>
+                        <option value="unit2">Unité de recherche biomédicale</option>
+                        <option value="unit3">Unité de recherche en physique</option>
+                        <option value="unit4">Unité de recherche en économie</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-doctoral-school">École doctorale</label>
+                    <select id="edit-doctoral-school" name="doctoral-school">
+                        <option value="school1" selected>École d'Ingénierie</option>
+                        <option value="school2">École des Sciences</option>
+                        <option value="school3">École de Médecine</option>
+                        <option value="school4">École de Commerce</option>
+                    </select>
+                </div>
+                
+                <div class="form-group-row">
+                    <div class="form-group">
+                        <label for="edit-enrollment-date">Date d'inscription</label>
+                        <input type="date" id="edit-enrollment-date" name="enrollment-date" value="2023-09-05" readonly>
+                        <small class="form-note">La date d'inscription ne peut pas être modifiée</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-expected-completion">Fin prévue</label>
+                        <input type="date" id="edit-expected-completion" name="expected-completion" value="2026-09-05">
+                    </div>
+                </div>
+              </div>
+              
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Gestion de thèse -->
+      <section id="thesis" class="dashboard-section">
+        <div class="section-header">
+          <h2>Gestion de thèse</h2>
+          <p>Soumettez et suivez l'état de votre thèse</p>
+        </div>
+        
+        <div class="thesis-container">
+          <div class="thesis-status-card">
+            <div class="thesis-status-header">
+              <h3>Statut de la thèse</h3>
+              <span class="status-badge in-progress">En cours</span>
+            </div>
+            <div class="thesis-timeline">
+              <div class="timeline-item active completed">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <h4>Enregistrement de la thèse</h4>
+                  <p>Votre sujet de thèse a été approuvé et enregistré.</p>
+                  <span class="timeline-date">15 septembre 2023</span>
+                </div>
+              </div>
+              <div class="timeline-item active current">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <h4>Recherche & Rédaction</h4>
+                  <p>Actuellement en cours. Soumettez des brouillons à votre directeur régulièrement.</p>
+                  <span class="timeline-date">Étape actuelle</span>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <h4>Soumission de la thèse</h4>
+                  <p>Soumettre votre thèse complète pour évaluation.</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <h4>Préparation de la soutenance</h4>
+                  <p>Préparer votre soutenance de thèse.</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <h4>Soutenance de thèse</h4>
+                  <p>Présenter et défendre votre recherche.</p>
+                </div>
+              </div>
+              <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content">
+                  <h4>Approbation finale</h4>
+                  <p>Thèse approuvée et doctorat obtenu.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="thesis-details-card">
+            <div class="card-header">
+              <h3>Détails de la thèse</h3>
+              <button id="edit-thesis-btn" class="btn btn-small btn-secondary">Modifier</button>
+            </div>
+            <div class="card-body">
+              <div class="thesis-info" id="thesis-info">
+                <div class="info-group">
+                  <span class="info-label">Titre</span>
+                  <span class="info-value">Applications du Machine Learning dans les Diagnostics Médicaux</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Résumé</span>
+                  <span class="info-value">Cette recherche explore l'application des algorithmes de machine learning pour améliorer la précision des procédures de diagnostic médical, avec un accent sur la détection précoce des maladies cardiovasculaires.</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Mots-clés</span>
+                  <div class="keyword-list">
+                    <span class="keyword">Machine Learning</span>
+                    <span class="keyword">Diagnostics médicaux</span>
+                    <span class="keyword">IA</span>
+                    <span class="keyword">Santé</span>
+                  </div>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Date d`enregistrement</span>
+                  <span class="info-value">15 septembre 2023</span>
+                </div>
+              </div>
+              
+              <!-- Formulaire de modification de thèse (caché par défaut) -->
+              <div class="thesis-edit-form hidden" id="thesis-edit-form">
+                <form id="edit-thesis-form">
+                  <div class="form-group">
+                    <label for="edit-thesis-title">Titre de la thèse</label>
+                    <input type="text" id="edit-thesis-title" name="thesis-title" value="Applications du Machine Learning dans les Diagnostics Médicaux">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="edit-thesis-summary">Résumé de la thèse</label>
+                    <textarea id="edit-thesis-summary" name="thesis-summary" rows="4">Cette recherche explore l'application des algorithmes de machine learning pour améliorer la précision des procédures de diagnostic médical, avec un accent sur la détection précoce des maladies cardiovasculaires.</textarea>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="edit-keywords">Mots-clés (séparés par des virgules)</label>
+                    <input type="text" id="edit-keywords" name="keywords" value="Machine Learning, Diagnostics médicaux, IA, Santé">
+                  </div>
+                  
+                  <div class="form-actions">
+                    <button type="button" id="cancel-thesis-edit" class="btn btn-text">Annuler</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          
+          <div class="thesis-documents-card">
+            <div class="card-header">
+              <h3>Documents de thèse</h3>
+              <button id="upload-document-btn" class="btn btn-small btn-primary">Téléverser</button>
+            </div>
+            <div class="card-body">
+              <div class="document-list">
+                <div class="document-item">
+                  <div class="document-icon pdf-icon"></div>
+                  <div class="document-info">
+                    <h4>Proposition de thèse</h4>
+                    <p>Téléversé le 15 septembre 2023</p>
+                  </div>
+                  <div class="document-actions">
+                    <a href="#" class="document-action download">Télécharger</a>
+                    <a href="#" class="document-action view">Voir</a>
+                  </div>
+                </div>
+                <div class="document-item">
+                  <div class="document-icon pdf-icon"></div>
+                  <div class="document-info">
+                    <h4>Chapitre Revue de littérature</h4>
+                    <p>Téléversé le 10 décembre 2023</p>
+                  </div>
+                  <div class="document-actions">
+                    <a href="#" class="document-action download">Télécharger</a>
+                    <a href="#" class="document-action view">Voir</a>
+                  </div>
+                </div>
+                <div class="document-item">
+                  <div class="document-icon pdf-icon"></div>
+                  <div class="document-info">
+                    <h4>Brouillon Méthodologie</h4>
+                    <p>Téléversé le 28 février 2024</p>
+                  </div>
+                  <div class="document-actions">
+                    <a href="#" class="document-action download">Télécharger</a>
+                    <a href="#" class="document-action view">Voir</a>
+                  </div>
+                </div>
+                <div class="document-item">
+                  <div class="document-icon word-icon"></div>
+                  <div class="document-info">
+                    <h4>Analyse des données</h4>
+                    <p>Téléversé le 15 avril 2024</p>
+                  </div>
+                  <div class="document-actions">
+                    <a href="#" class="document-action download">Télécharger</a>
+                    <a href="#" class="document-action view">Voir</a>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Formulaire de téléversement (caché par défaut) -->
+              <div class="upload-form hidden" id="upload-document-form">
+                <div class="form-header">
+                  <h3>Téléverser un document</h3>
+                  <button id="cancel-upload" class="btn btn-text">Annuler</button>
+                </div>
+                <form id="document-upload-form">
+                  <div class="form-group">
+                    <label for="document-title">Titre du document</label>
+                    <input type="text" id="document-title" name="document-title" required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="document-type">Type de document</label>
+                    <select id="document-type" name="document-type" required>
+                      <option value="">Sélectionner un type</option>
+                      <option value="proposal">Proposition de thèse</option>
+                      <option value="chapter">Chapitre de thèse</option>
+                      <option value="draft">Brouillon complet</option>
+                      <option value="final">Thèse finale</option>
+                      <option value="other">Autre</option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="document-file">Téléverser un fichier (PDF uniquement)</label>
+                    <div class="file-upload">
+                      <input type="file" id="document-file" name="document-file" accept=".pdf, .docx" required>
+                      <div class="upload-placeholder">
+                        <span class="upload-icon"></span>
+                        <span class="upload-text">Glissez-déposez votre fichier ici, ou cliquez pour parcourir</span>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="document-notes">Notes (optionnel)</label>
+                    <textarea id="document-notes" name="document-notes" rows="3"></textarea>
+                  </div>
+                  
+                  <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Téléverser</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      
+      <!-- Espace réservé pour autres sections -->
+      <section id="supervisors" class="dashboard-section">
+        <div class="section-header">
+          <h2>Équipe de direction</h2>
+          <p>Informations sur votre directeur et superviseur de thèse</p>
+        </div>
+        <!-- Contenu des directeurs sera implémenté ultérieurement -->
+        <div class="placeholder-message">
+          <p>Les informations sur l'équipe de direction seront bientôt disponibles.</p>
+        </div>
+      </section>
+      
+<section id="messages" class="dashboard-section">
+  
+
+  <div id="messaging-interface" class="messaging-container">
+    <!-- Liste des conversations -->
+    <div class="conversation-list">
+      
+      <div class="conversation-header">Conversations</div>
+      <ul id="conversationList">
+        <li class="loading">Chargement...</li>
+      </ul>
+
+      <div class="new-conversation-wrapper">
+  <button id="toggleNewConversation" class="new-conversation-toggle">+</button>
+
+  <div id="newConversationForm" class="new-conversation-form hidden">
+    <input type="email" id="newConversationEmail" placeholder="Email du contact..." />
+    <button id="startConversationBtn">Commencer</button>
+  </div>
+</div>
+
+    </div>
+
+    <!-- Zone de chat -->
+    <div class="chat-box">
+      <div id="chatHeader" class="chat-header">Conversation</div>
+      <div id="chatWindow" class="chat-window">
+        <p>Sélectionnez une conversation</p>
+      </div>
+
+      <form id="sendMessageForm" class="chat-form">
+        <input type="hidden" id="receiverEmail" />
+        <textarea id="messageContent" placeholder="Écrivez un message..." required></textarea>
+        <div class="form-actions">
+          <input type="file" id="fileInput" accept="image/*,.pdf" />
+          <button type="submit">Envoyer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+      
+      <section id="settings" class="dashboard-section">
+        <div class="section-header">
+          <h2>Paramètres</h2>
+          <p>Gérez les paramètres et préférences de votre compte</p>
+        </div>
+        <!-- Contenu des paramètres sera implémenté ultérieurement -->
+        <div class="placeholder-message">
+          <p>Les paramètres du compte seront bientôt disponibles.</p>
+        </div>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

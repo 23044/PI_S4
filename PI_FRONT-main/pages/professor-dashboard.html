@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Professor Dashboard - DoctoLearn</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <script src="../js/main.js" defer></script>
+  <script src="../js/dashboard.js" defer></script>
+</head>
+<body>
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="logo">
+          <h1>DoctoLearn</h1>
+        </div>
+        <button id="close-sidebar" class="sidebar-toggle">
+          <span></span>
+        </button>
+      </div>
+      
+      <div class="user-profile">
+        <div class="user-avatar">
+          <div class="avatar-placeholder">BS</div>
+        </div>
+        <div class="user-info">
+          <h3 id="user-name">Prof. Benjamin Smith</h3>
+          <p id="user-role">Thesis Director</p>
+        </div>
+      </div>
+      
+      <nav class="sidebar-nav">
+        <ul>
+          <li><a href="#" class="active" data-section="overview"><span class="nav-icon overview-icon"></span>Overview</a></li>
+          <li><a href="#" data-section="department"><span class="nav-icon department-icon"></span>Department</a></li>
+          <li><a href="#" data-section="students"><span class="nav-icon students-icon"></span>Doctoral Students</a></li>
+          <li><a href="#" data-section="supervisors"><span class="nav-icon supervisors-icon"></span>Supervisors</a></li>
+          <li><a href="#" data-section="proposals"><span class="nav-icon thesis-icon"></span>Research Proposals</a></li>
+          <li><a href="#" data-section="calendar"><span class="nav-icon calendar-icon"></span>Calendar</a></li>
+          <li><a href="#" data-section="messages"><span class="nav-icon messages-icon"></span>Messages</a></li>
+          <li><a href="#" data-section="settings"><span class="nav-icon settings-icon"></span>Settings</a></li>
+        </ul>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <a href="#" id="logout-btn"><span class="nav-icon logout-icon"></span>Logout</a>
+      </div>
+    </aside>
+
+    <div class="main-content">
+      <header class="dashboard-header">
+        <div class="header-left">
+          <button id="open-sidebar" class="sidebar-toggle">
+            <span></span>
+          </button>
+          <h2 class="page-title">Director Dashboard</h2>
+        </div>
+        <div class="header-right">
+          <div class="header-search">
+            <input type="text" placeholder="Search...">
+            <button class="search-btn"></button>
+          </div>
+          <div class="header-notifications">
+            <button class="notification-btn"><span class="badge">7</span></button>
+          </div>
+        </div>
+      </header>
+
+      <!-- Overview Section -->
+      <section id="overview" class="dashboard-section active">
+        <div class="section-header">
+          <h2>Department Overview</h2>
+          <p>Welcome back, Prof. Smith! Here's your department's doctoral program overview.</p>
+        </div>
+        
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon students-icon"></div>
+            <div class="stat-info">
+              <h3>Active Students</h3>
+              <p class="stat-value">25</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon supervisors-icon"></div>
+            <div class="stat-info">
+              <h3>Active Supervisors</h3>
+              <p class="stat-value">8</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon proposals-icon"></div>
+            <div class="stat-info">
+              <h3>Pending Proposals</h3>
+              <p class="stat-value">5</p>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon graduation-icon"></div>
+            <div class="stat-info">
+              <h3>Recent Graduates</h3>
+              <p class="stat-value">6</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="dashboard-cards">
+          <div class="card">
+            <div class="card-header">
+              <h3>Department Statistics</h3>
+              <a href="#" class="card-action">View Report</a>
+            </div>
+            <div class="card-body">
+              <div class="stats-chart">
+                <div class="chart-item">
+                  <h4>Student Distribution</h4>
+                  <div class="chart-container">
+                    <div class="chart-bar" style="height: 60%">
+                      <span class="chart-label">Year 1</span>
+                      <span class="chart-value">10</span>
+                    </div>
+                    <div class="chart-bar" style="height: 80%">
+                      <span class="chart-label">Year 2</span>
+                      <span class="chart-value">8</span>
+                    </div>
+                    <div class="chart-bar" style="height: 40%">
+                      <span class="chart-label">Year 3</span>
+                      <span class="chart-value">5</span>
+                    </div>
+                    <div class="chart-bar" style="height: 20%">
+                      <span class="chart-label">Year 4+</span>
+                      <span class="chart-value">2</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div class="card-header">
+              <h3>Recent Activities</h3>
+              <a href="#" class="card-action">View All</a>
+            </div>
+            <div class="card-body">
+              <div class="activity-list">
+                <div class="activity-item">
+                  <div class="activity-icon proposal-icon"></div>
+                  <div class="activity-info">
+                    <h4>New Research Proposal</h4>
+                    <p>From Dr. Alice Davis for student Sarah Johnson</p>
+                    <span class="activity-date">1 hour ago</span>
+                  </div>
+                  <a href="#" class="btn btn-small btn-secondary">Review</a>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon defense-icon"></div>
+                  <div class="activity-info">
+                    <h4>Thesis Defense Scheduled</h4>
+                    <p>Michael Brown - Quantum Computing Applications</p>
+                    <span class="activity-date">Yesterday</span>
+                  </div>
+                  <a href="#" class="btn btn-small btn-secondary">View</a>
+                </div>
+                <div class="activity-item">
+                  <div class="activity-icon report-icon"></div>
+                  <div class="activity-info">
+                    <h4>Annual Department Report</h4>
+                    <p>Review and approval needed</p>
+                    <span class="activity-date">2 days ago</span>
+                  </div>
+                  <a href="#" class="btn btn-small btn-secondary">Review</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="dashboard-cards">
+          <div class="card">
+            <div class="card-header">
+              <h3>Upcoming Reviews</h3>
+              <a href="#" class="card-action">View Calendar</a>
+            </div>
+            <div class="card-body">
+              <ul class="review-list">
+                <li class="review-item">
+                  <div class="review-date">
+                    <span class="month">Jun</span>
+                    <span class="day">20</span>
+                  </div>
+                  <div class="review-info">
+                    <h4>Thesis Defense Committee</h4>
+                    <p>Michael Brown - Quantum Computing Applications</p>
+                    <div class="committee-members">
+                      <span>Committee: Dr. Davis, Dr. Wilson, Prof. Johnson</span>
+                    </div>
+                  </div>
+                  <div class="review-status defense">
+                    <span>Defense</span>
+                  </div>
+                </li>
+                <li class="review-item">
+                  <div class="review-date">
+                    <span class="month">Jun</span>
+                    <span class="day">25</span>
+                  </div>
+                  <div class="review-info">
+                    <h4>Research Proposal Review</h4>
+                    <p>New AI Research Initiative - Dr. Alice Davis</p>
+                    <div class="committee-members">
+                      <span>Reviewers: Prof. Smith, Dr. Anderson</span>
+                    </div>
+                  </div>
+                  <div class="review-status proposal">
+                    <span>Proposal</span>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+          
+          <div class="card">
+            <div class="card-header">
+              <h3>Department Announcements</h3>
+              <a href="#" class="card-action">Create New</a>
+            </div>
+            <div class="card-body">
+              <div class="announcement-list">
+                <div class="announcement-item">
+                  <h4>Annual Research Symposium</h4>
+                  <p>Registration open for the upcoming doctoral research symposium. All students and supervisors are encouraged to participate.</p>
+                  <div class="announcement-meta">
+                    <span class="date">Posted: June 10, 2025</span>
+                    <a href="#" class="btn btn-small btn-text">Read More</a>
+                  </div>
+                </div>
+                <div class="announcement-item">
+                  <h4>New Research Grant Opportunities</h4>
+                  <p>Information session on available research grants for doctoral students. Session will cover application process and eligibility criteria.</p>
+                  <div class="announcement-meta">
+                    <span class="date">Posted: June 8, 2025</span>
+                    <a href="#" class="btn btn-small btn-text">Read More</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Other sections will be implemented similarly -->
+      <section id="department" class="dashboard-section">
+        <div class="section-header">
+          <h2>Department Management</h2>
+          <p>Overview and management of departmental activities</p>
+        </div>
+        <!-- Department management content -->
+      </section>
+      
+      <section id="students" class="dashboard-section">
+        <div class="section-header">
+          <h2>Doctoral Students</h2>
+          <p>Comprehensive view of all doctoral students</p>
+        </div>
+        <!-- Student management content -->
+      </section>
+      
+      <!-- Additional sections as needed -->
+    </div>
+  </div>
+</body>
+</html>

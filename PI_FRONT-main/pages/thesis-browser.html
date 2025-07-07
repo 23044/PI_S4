@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>these MR - Gestion des doctorants</title>
+      <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <script src="../js/main.js" defer></script>
+  <script src="../js/auth.js" defer></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .line-clamp-2 {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+        }
+        
+        .line-clamp-3 {
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+        }
+
+        .highlight {
+            background-color: #fef08a;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+
+        /* Loading animation */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        /* Smooth transitions */
+        .thesis-card {
+            transition: all 0.3s ease;
+        }
+
+        .thesis-card:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Custom scrollbar for modal */
+        .modal-content::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .modal-content::-webkit-scrollbar-track {
+            background: #f1f5f9;
+            border-radius: 4px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        .modal-content::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+            <!-- Navigation Header -->
+        <nav class="bg-white shadow-sm border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center">
+                        <a href="./thesesNav.html" class="text-lg font-semibold text-gray-900 hover:text-blue-600 transition-colors">
+                            ← Retour à la Navigation
+                        </a>
+                    </div>
+                    <div class="logo">
+                        <h1>Theses MR</h1>
+                        <span>Système de gestion doctorale</span>
+                      </div>
+                </div>
+            </div>
+        </nav>
+        
+    <div id="thesis-browser-container" class="min-h-screen">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+                <!-- Filters Sidebar -->
+                <div class="lg:col-span-1">
+                    <div class="bg-white rounded-2xl shadow-lg p-6 h-fit sticky top-6">
+                        <div class="flex items-center space-x-2 mb-6">
+                            <svg class="h-5 w-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
+                            </svg>
+                            <h3 class="text-lg font-bold text-blue-900">Filtres de recherche</h3>
+                        </div>
+
+                        <!-- Search Input -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-blue-900 mb-2">Recherche</label>
+                            <div class="relative">
+                                <input
+                                    type="text"
+                                    id="search-input"
+                                    placeholder="Titre, auteur, mots-clés..."
+                                    class="w-full pl-10 pr-4 py-2 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                />
+                                <svg class="absolute left-3 top-2.5 h-4 w-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Statut Filter -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-blue-900 mb-3 flex items-center space-x-2">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <span>Statut de la thèse</span>
+                            </label>
+                            <select id="statut-select" class="w-full p-2 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="all">Tous les statuts</option>
+                                <option value="soumise">Soumise</option>
+                                <option value="en cours">En cours</option>
+                                <option value="validée">Validée</option>
+                                <option value="archivée">Archivée</option>
+                            </select>
+                        </div>
+
+                        <!-- Langue Filter -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-blue-900 mb-3 flex items-center space-x-2">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9m0 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                                </svg>
+                                <span>Langue</span>
+                            </label>
+                            <select id="langue-select" class="w-full p-2 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="all">Toutes les langues</option>
+                                <option value="Français">Français</option>
+                                <option value="Anglais">Anglais</option>
+                                <option value="Espagnol">Espagnol</option>
+                                <option value="Allemand">Allemand</option>
+                                <option value="Arabe">Arabe</option>
+                            </select>
+                        </div>
+
+                        <!-- Établissement Filter -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-blue-900 mb-3 flex items-center space-x-2">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                </svg>
+                                <span>Établissement</span>
+                            </label>
+                            <select id="etablissement-select" class="w-full p-2 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="all">Tous les établissements</option>
+                                <option value="Massachusetts Institute of Technology">MIT</option>
+                                <option value="Stanford University">Stanford University</option>
+                                <option value="University of Oxford">University of Oxford</option>
+                                <option value="Université de Paris">Université de Paris</option>
+                                <option value="ETH Zurich">ETH Zurich</option>
+                            </select>
+                        </div>
+
+                        <!-- Discipline Filter -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-blue-900 mb-3">Discipline</label>
+                            <select id="discipline-select" class="w-full p-2 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="all">Toutes les disciplines</option>
+                                <option value="Informatique">Informatique</option>
+                                <option value="Physique">Physique</option>
+                                <option value="Mathématiques">Mathématiques</option>
+                                <option value="Biologie">Biologie</option>
+                                <option value="Chimie">Chimie</option>
+                                <option value="Médecine">Médecine</option>
+                                <option value="Sciences Environnementales">Sciences Environnementales</option>
+                            </select>
+                        </div>
+
+                        <!-- Année Filter -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-semibold text-blue-900 mb-3 flex items-center space-x-2">
+                                <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                                <span>Année de soutenance</span>
+                            </label>
+                            <select id="annee-select" class="w-full p-2 border border-blue-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="all">Toutes les années</option>
+                                <option value="2024">2024</option>
+                                <option value="2023">2023</option>
+                                <option value="2022">2022</option>
+                                <option value="2021">2021</option>
+                                <option value="2020">2020</option>
+                            </select>
+                        </div>
+
+                        <!-- Clear Filters -->
+                        <button id="clear-filters" class="w-full bg-blue-50 hover:bg-blue-100 text-blue-700 py-2 rounded-lg font-medium transition-colors">
+                            Effacer tous les filtres
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Results Area -->
+                <div class="lg:col-span-3">
+                    <!-- Results Header -->
+                    <div class="bg-white rounded-2xl shadow-lg p-6 mb-6">
+                        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4">
+                            <div>
+                                <h2 class="text-2xl font-bold text-blue-900 mb-2">Résultats de recherche</h2>
+                                <p id="results-count" class="text-blue-600">5 thèse(s) trouvée(s)</p>
+                            </div>
+                            
+                            <div class="flex items-center space-x-4 mt-4 lg:mt-0">
+                                <!-- View Mode Toggle -->
+                                <div class="flex bg-blue-50 rounded-lg p-1">
+                                    <button id="list-view-btn" class="p-2 rounded-md transition-colors bg-blue-600 text-white">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
+                                        </svg>
+                                    </button>
+                                    <button id="grid-view-btn" class="p-2 rounded-md transition-colors text-blue-600 hover:bg-blue-100">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+
+                                <!-- Sort Dropdown -->
+                                <div class="relative">
+                                    <select id="sort-select" class="appearance-none bg-white border border-blue-200 rounded-lg px-4 py-2 pr-8 focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                        <option value="date_desc">Plus récent</option>
+                                        <option value="date_asc">Plus ancien</option>
+                                        <option value="titre_asc">Titre A-Z</option>
+                                        <option value="titre_desc">Titre Z-A</option>
+                                        <option value="statut">Par statut</option>
+                                    </select>
+                                    <svg class="absolute right-2 top-2.5 h-4 w-4 text-blue-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Results Container -->
+                    <div id="results-container" class="space-y-6">
+                        <!-- Results will be populated by JavaScript -->
+                    </div>
+
+                    <!-- Pagination -->
+                    <div id="pagination-container" class="bg-white rounded-2xl shadow-lg p-6 mt-8" style="display: none;">
+                        <div class="flex items-center justify-between">
+                            <div id="pagination-info" class="text-sm text-gray-600">
+                                Affichage de 1 à 2 sur 5 résultats
+                            </div>
+                            
+                            <div id="pagination-buttons" class="flex items-center space-x-2">
+                                <!-- Pagination buttons will be populated by JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- No Results -->
+                    <div id="no-results" class="bg-white rounded-2xl shadow-lg p-12 text-center" style="display: none;">
+                        <svg class="h-16 w-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <h3 class="text-xl font-semibold text-gray-600 mb-2">Aucune thèse trouvée</h3>
+                        <p class="text-gray-500 mb-4">
+                            Aucune thèse ne correspond aux critères sélectionnés. 
+                            Essayez de modifier vos critères de recherche ou vos filtres.
+                        </p>
+                        <div class="text-sm text-gray-400">
+                            <p>Suggestions :</p>
+                            <ul class="list-disc list-inside mt-2 space-y-1">
+                                <li>Vérifiez l'orthographe des mots-clés</li>
+                                <li>Utilisez des termes plus généraux</li>
+                                <li>Réduisez le nombre de filtres actifs</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thesis Detail Modal -->
+    <div id="thesis-modal" class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" style="display: none;">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-hidden">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between p-6 border-b border-gray-200">
+                <h2 class="text-2xl font-bold text-blue-900">Détails de la thèse</h2>
+                <button id="close-modal" class="text-gray-400 hover:text-gray-600 transition-colors">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal Content -->
+            <div id="modal-content" class="overflow-y-auto max-h-[calc(90vh-80px)] p-6 modal-content">
+                <!-- Content will be populated by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Indicator -->
+    <div id="loading-indicator" class="fixed top-4 right-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow-lg" style="display: none;">
+        <div class="flex items-center space-x-2">
+            <svg class="animate-spin h-4 w-4" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span>Recherche en cours...</span>
+        </div>
+    </div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <h2>Theses MR</h2>
+          <p>Simplifiant la gestion doctorale depuis 2025</p>
+        </div>
+        <div class="footer-links">
+          <div class="link-group">
+            <h3>Liens rapides</h3>
+            <ul>
+              <li><a href="../index.html">Accueil</a></li>
+              <li><a href="./a-propos.html">À propos</a></li>
+              <li><a href="./contact.html">Contact</a></li>
+              <li><a href="./login.html">Connexion</a></li>
+              <li><a href="./register.html">Inscription</a></li>
+            </ul>
+          </div>
+          <div class="link-group">
+            <h3>Ressources</h3>
+            <ul>
+              <li><a href="#">Centre d'aide</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Politique de confidentialité</a></li>
+              <li><a href="#">Conditions d'utilisation</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Theses MR. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+    <!-- Scripts -->
+    <script src="../js/thesis-data.js"></script>
+    <script src="../js/thesis-browser.js"></script>
+</body>
+</html>

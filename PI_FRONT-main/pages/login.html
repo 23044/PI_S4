@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connexion - DoctoLearn</title>
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/auth.css">
+  <script src="../js/main.js" defer></script> 
+  <script src="../js/auth.js" defer></script>
+</head>
+<body>
+  <header class="site-header minimal">
+    <div class="container">
+      <div class="logo">
+        <a href="../index.html">
+          <h1>Theses MR</h1>
+          <span>Système de gestion de doctorat</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="site-main auth-main">
+    <div class="container">
+      <div class="auth-container">
+        <div class="auth-card">
+          <div class="auth-header">
+            <h2>Bienvenue</h2>
+            <p>Connectez-vous pour accéder à votre tableau de bord doctoral</p>
+          </div>
+          <form id="login-form" class="auth-form">
+            <div class="form-group">
+              <label for="email">Adresse email</label>
+              <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+              <label for="password">Mot de passe</label>
+              <input type="password" id="password" name="password" required>
+              <div class="password-toggle">
+                <button type="button" id="toggle-password" aria-label="Afficher/masquer le mot de passe"></button>
+              </div>
+            </div>
+            <div class="form-actions">
+              <!-- <div class="remember-me">
+                <input type="checkbox" id="remember" name="remember">
+                <label for="remember">Se souvenir de moi</label>
+              </div> -->
+              <a href="forgotpassword.html" class="forgot-password">Mot de passe oublié ?</a>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Se connecter</button>
+            <div class="auth-switch">
+              <p>Pas de compte ? <a href="register.html">S'inscrire</a></p>
+            </div>
+          </form>
+        </div>
+        <div class="auth-info">
+          <div class="auth-info-content">
+            <h2>Votre parcours doctoral vous attend</h2>
+            <p>Connectez-vous pour accéder à votre tableau de bord et suivre l'avancement de votre thèse.</p>
+            <ul class="auth-features">
+              <li>Suivez l'état de votre thèse</li>
+              <li>Mettez à jour votre profil académique</li>
+              <li>Communiquez avec vos directeurs</li>
+              <li>Accédez aux ressources doctorales</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer minimal">
+    <div class="container">
+      <p>&copy; 2025 Theses MR. Tous droits réservés.</p>
+    </div>
+  </footer>
+  
+</body>
+</html>

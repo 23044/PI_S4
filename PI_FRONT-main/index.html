@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>these MR - Gestion des doctorants</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <script src="js/main.js" defer></script>
+  <script src="js/auth.js" defer></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      fetch('http://localhost:8081/api/theses/stats')
+        .then(res => res.json())
+        .then(stats => {
+          document.getElementById('these-soutenues').innerText = `${stats.soutenues}`;
+          document.getElementById('these-en-cours').innerText = `${stats.enCours}`;
+          document.getElementById('total-theses').innerText = `${stats.total}`;
+        })
+        .catch(err => {
+          console.error("Erreur chargement stats:", err);
+        });
+    });
+    </script>
+    
+  <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        nav ul li:hover {
+            text-decoration: underline;
+        }
+        
+        .search-container {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        
+        .search-box {
+            width: 60%;
+            max-width: 600px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 30px;
+            font-size: 16px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .search-options {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+        
+        .search-options span {
+            margin-right: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .advanced-search {
+            font-weight: bold;
+            color: #1E40AF;
+            cursor: pointer;
+        }
+        
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .stat-box {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        
+        .stat-box:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #1E40AF;
+        }
+        
+        .stat-label {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .explore-btn {
+            background-color: #1E40AF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .explore-btn:hover {
+            background-color: #1E40AF;
+        }
+        
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            nav ul {
+                margin-top: 15px;
+            }
+            
+            .search-box {
+                width: 90%;
+            }
+            
+            .stats-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <div class="logo">
+        <h1>Theses MR</h1>
+        <span>Système de gestion doctorale</span>
+      </div>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="#" class="active">Accueil</a></li>
+          <li><a href="./pages/thesesNav.html">Navigation</a></li>
+          <li><a href="../pages/a-propos.html">À propos</a></li>
+          <li><a href="../pages/contact.html">Contact</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="site-main">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h2>Votre parcours doctoral, <span>simplifié</span></h2>
+          <p>Gérez toute votre expérience doctorale en un seul endroit. Inscrivez-vous, suivez votre progression et soumettez votre thèse en toute simplicité.</p>
+          <div class="hero-actions">
+            <a href="pages/login.html" class="btn btn-primary">Connexion</a>
+            <a href="pages/register.html" class="btn btn-secondary">Inscription</a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <div class="image-container">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container">
+        <h2 class="section-title">Fonctionnalités clés</h2>
+        <div class="feature-grid">
+          <div class="feature-card">
+            <div class="feature-icon registration-icon"></div>
+            <h3>Inscription simple</h3>
+            <p>Créez votre compte avec vos informations académiques essentielles en quelques minutes.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon profile-icon"></div>
+            <h3>Profil complet</h3>
+            <p>Gérez vos informations personnelles et académiques en un seul endroit.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon thesis-icon"></div>
+            <h3>Gestion de thèse</h3>
+            <p>Téléversez, suivez et gérez votre thèse tout au long de votre doctorat.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon status-icon"></div>
+            <h3>Suivi de statut</h3>
+            <p>Surveillez l'état de validation de votre thèse en temps réel.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+   <!-- <div class="Nav-container">
+         explorer le theses 
+    </div>
+    
+    <div class="stats-container">
+        <div class="stat-box">
+            <div class="stat-number">40 000</div>
+            <div class="stat-label">defended theses</div>
+            <button class="explore-btn">EXPLORE</button>
+        </div>
+        
+        <div class="stat-box">
+            <div class="stat-number">30 264</div>
+            <div class="stat-label">ongoing theses</div>
+            <button class="explore-btn">EXPLORE</button>
+        </div>
+
+         <div class="stat-box">
+            <div class="stat-number">70 264</div>
+            <div class="stat-label">total theses</div>
+            <button class="explore-btn">EXPLORE</button>
+        </div>
+        
+        <div class="stat-box">
+            <div class="stat-number">70 907</div>
+            <div class="stat-label">contributors</div>
+            <button class="explore-btn">EXPLORE 😊</button>
+        </div>
+    </div> -->
+    <section class="container" style="margin: 3rem auto; text-align: center;">
+      <h2 style="font-size:2rem; color:#1E40AF; margin-bottom:1rem;">Explorer les thèses</h2>
+      <p style="color:#374151; margin-bottom:2rem;">
+        Accédez à la liste complète des thèses soutenues, en cours ou à venir.
+      </p>
+      <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 2rem;">
+        <div style="background: #fff; border-radius: 1rem; box-shadow: 0 2px 8px #0001; padding: 2rem 1.5rem; min-width: 200px;">
+          <div style="font-size:2rem; color:#1E40AF; font-weight:bold;" class="these-soutenues" id="these-soutenues">40 000</div>
+          <div style="color:#374151; margin-bottom:0.5rem;" >Thèses soutenues</div>
+        </div>
+        <div style="background: #fff; border-radius: 1rem; box-shadow: 0 2px 8px #0001; padding: 2rem 1.5rem; min-width: 200px;">
+          <div style="font-size:2rem; color:#1E40AF; font-weight:bold;" class="these-en-cours" id="these-en-cours">30 264</div>
+          <div style="color:#374151; margin-bottom:0.5rem;">Thèses en cours</div>
+        </div>
+        <div style="background: #fff; border-radius: 1rem; box-shadow: 0 2px 8px #0001; padding: 2rem 1.5rem; min-width: 200px;">
+          <div style="font-size:2rem; color:#1E40AF; font-weight:bold;" class="total-theses" id="total-theses">70 264</div>
+          <div style="color:#374151; margin-bottom:0.5rem;">Total des thèses</div>
+        </div>
+      </div>
+      <a href="pages/thesesNav.html" class="btn btn-primary" style="margin-top:2rem; font-size:1.1rem;">
+        Explorer les thèses
+      </a>
+    </section>
+<div class="cardthese">
+  
+</div>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-logo">
+          <h2>Theses MR</h2>
+          <p>Simplifiant la gestion doctorale depuis 2025</p>
+        </div>
+        <div class="footer-links">
+          <div class="link-group">
+            <h3>Liens rapides</h3>
+            <ul>
+              <li><a href="">Accueil</a></li>
+              <li><a href="pages/a-propos.html">À propos</a></li>
+              <li><a href="pages/contact.html">Contact</a></li>
+              <li><a href="pages/login.html">Connexion</a></li>
+              <li><a href="pages/register.html">Inscription</a></li>
+            </ul>
+          </div>
+          <div class="link-group">
+            <h3>Ressources</h3>
+            <ul>
+              <li><a href="#">Centre d'aide</a></li>
+              <li><a href="#">FAQ</a></li>
+              <li><a href="#">Politique de confidentialité</a></li>
+              <li><a href="#">Conditions d'utilisation</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2025 Theses MR. Tous droits réservés.</p>
+      </div>
+    </div>
+  </footer>
+
+   <script>
+        // Basic functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Search box focus
+            const searchBox = document.querySelector('.search-box');
+            searchBox.addEventListener('focus', function() {
+                this.style.boxShadow = '0 2px 8px rgba(26, 115, 232, 0.3)';
+            });
+            
+            searchBox.addEventListener('blur', function() {
+                this.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+            });
+            
+            // Advanced search click
+            const advancedSearch = document.querySelector('.advanced-search');
+            advancedSearch.addEventListener('click', function() {
+                alert('Advanced search functionality would open here');
+            });
+            
+            // Explore buttons
+            const exploreButtons = document.querySelectorAll('.explore-btn');
+            exploreButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const label = this.parentElement.querySelector('.stat-label').textContent;
+                    alert(`Exploring ${label.toLowerCase()}`);
+                });
+            });
+            
+            // Navigation
+            const navItems = document.querySelectorAll('nav ul li');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    alert(`Navigating to ${this.textContent} section`);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
