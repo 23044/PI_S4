@@ -46,9 +46,13 @@ public class SecurityConfig {
                                 "/unites-recherche", "/ecoles-doctorales", "/", "/css/**", "/js/**",
                                 "/api/doctorant/dashboard/**",
                                 "/upload-file", "/api/files/upload", "/api/files/uploads",
-                                "/api/files/download/**", "/api/files/view/**", "/api/files/list",
-                                "/**")
+                                "/api/files/download/**", "/api/files/view/**", "/api/files/list")
                         .permitAll()
+                        .requestMatchers("/admin/**").hasRole("ADMINISTRATEUR")
+                        .requestMatchers("/directeur/**").hasRole("DIRECTEUR")
+                        .requestMatchers("/docteur/**").hasRole("DOCTEUR")
+                        .requestMatchers("/encadrant/**").hasRole("ENCADRANT")
+                        .requestMatchers("/doctorant/**").hasRole("DOCTORANT")
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

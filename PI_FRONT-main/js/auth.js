@@ -78,6 +78,7 @@ async function loadDoctoralSchools() {
     const response = await fetch('http://localhost:8081/api/etablissements');
     const ecoles = await response.json();
     
+    // Populate the main doctoral school select (in academic step)
     const select = document.getElementById('doctoral-school');
     if (select) {
       // Clear existing options except the first one (placeholder)
@@ -88,6 +89,20 @@ async function loadDoctoralSchools() {
         option.value = ecole.id;
         option.textContent = ecole.nom;
         select.appendChild(option);
+      });
+    }
+
+    // Populate the encadrant doctoral school select (in personal step)
+    const encadrantSelect = document.getElementById('encadrant-doctoral-school');
+    if (encadrantSelect) {
+      // Clear existing options except the first one (placeholder)
+      encadrantSelect.length = 1;
+      
+      ecoles.forEach(ecole => {
+        const option = document.createElement('option');
+        option.value = ecole.id;
+        option.textContent = ecole.nom;
+        encadrantSelect.appendChild(option);
       });
     }
   } catch (err) {
@@ -431,7 +446,11 @@ function initRegistrationForm() {
         console.log(`${key}: "${value}"`);
       }
 
-      const schoolId = formData.get("doctoral-school") || "";
+      // Get school ID from the appropriate field based on role
+      const userRole = formData.get("role") || "";
+      const schoolId = userRole === "encadrant" 
+        ? formData.get("encadrant-doctoral-school") || ""
+        : formData.get("doctoral-school") || "";
 
       const user = {
         firstName: formData.get("firstname") || "",
@@ -915,6 +934,12 @@ function validateStep(step) {
   let isValid = true;
 
   requiredInputs.forEach((input) => {
+    // Skip validation for hidden inputs (encadrant fields when hidden)
+    const parentDiv = input.closest('#encadrant-fields');
+    if (parentDiv && parentDiv.style.display === 'none') {
+      return; // Skip this input
+    }
+    
     if (!input.value.trim()) {
       isValid = false;
 
