@@ -1,6 +1,7 @@
 package com.example.backend.Controllers;
 
 import com.example.backend.Models.Ressource;
+import com.example.backend.Repositories.RessourceRepository;
 import com.example.backend.Dto.RessourceDTO;
 
 import com.example.backend.Services.RessourceService;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -21,26 +23,23 @@ public class RessourceController {
     @Autowired
     private RessourceService ressourceService;
 
+    @Autowired
+    private RessourceRepository ressourceRepository;
+    
     // GET /api/ressources - Liste de tous les documents ou liens utiles
     @GetMapping("/all")
-    public ResponseEntity<?> getAllRessources() {
-        try {
-            List<Ressource> ressources = ressourceService.getAllRessources();
-            List<RessourceDTO> ressourceDTOs = ressources.stream()
-                    .map(RessourceDTO::new)
-                    .collect(Collectors.toList());
+    public ResponseEntity<List<Map<String, Object>>> getAllRessources() {
+        List<Ressource> ressources = ressourceRepository.findAllByOrderByIdDesc();
 
-            return ResponseEntity.ok(Map.of(
-                "ressources", ressourceDTOs,
-                "count", ressourceDTOs.size()
-            ));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of(
-                    "error", "Internal Server Error",
-                    "message", e.getMessage()
-                ));
-        }
+        List<Map<String, Object>> response = ressources.stream().map(r -> {
+            Map<String, Object> map = new HashMap<>();
+            map.put("titre", r.getTitre());
+            map.put("description", r.getDescription());
+            map.put("lien", r.getLien());
+            return map;
+        }).toList();
+
+        return ResponseEntity.ok(response);
     }
 
     // GET /api/ressources/{id} - Détail d'une ressource
@@ -53,17 +52,15 @@ public class RessourceController {
                 return ResponseEntity.ok(ressourceDTO);
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of(
-                        "error", "Not Found",
-                        "message", "Ressource not found with id: " + id
-                    ));
+                        .body(Map.of(
+                                "error", "Not Found",
+                                "message", "Ressource not found with id: " + id));
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of(
-                    "error", "Internal Server Error",
-                    "message", e.getMessage()
-                ));
+                    .body(Map.of(
+                            "error", "Internal Server Error",
+                            "message", e.getMessage()));
         }
     }
 
@@ -73,33 +70,29 @@ public class RessourceController {
         // Validation du corps de la requête
         if (createDTO == null) {
             return ResponseEntity.badRequest()
-                .body(Map.of(
-                    "error", "Bad Request",
-                    "message", "Request body is required. Please provide resource data in JSON format.",
-                    "example", Map.of(
-                        "titre", "Guide de rédaction de thèse",
-                        "lien", "https://example.com/guide.pdf",
-                        "description", "Guide complet pour la rédaction d'une thèse",
-                        "ajouteParId", 1
-                    )
-                ));
+                    .body(Map.of(
+                            "error", "Bad Request",
+                            "message", "Request body is required. Please provide resource data in JSON format.",
+                            "example", Map.of(
+                                    "titre", "Guide de rédaction de thèse",
+                                    "lien", "https://example.com/guide.pdf",
+                                    "description", "Guide complet pour la rédaction d'une thèse",
+                                    "ajouteParId", 1)));
         }
 
         // Validation des champs obligatoires
         if (createDTO.getTitre() == null || createDTO.getTitre().trim().isEmpty()) {
             return ResponseEntity.badRequest()
-                .body(Map.of(
-                    "error", "Bad Request",
-                    "message", "Le titre est obligatoire"
-                ));
+                    .body(Map.of(
+                            "error", "Bad Request",
+                            "message", "Le titre est obligatoire"));
         }
 
         if (createDTO.getAjouteParId() == null) {
             return ResponseEntity.badRequest()
-                .body(Map.of(
-                    "error", "Bad Request",
-                    "message", "L'ID de l'utilisateur est obligatoire"
-                ));
+                    .body(Map.of(
+                            "error", "Bad Request",
+                            "message", "L'ID de l'utilisateur est obligatoire"));
         }
 
         try {
@@ -109,16 +102,14 @@ public class RessourceController {
             return ResponseEntity.status(HttpStatus.CREATED).body(ressourceDTO);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(Map.of(
-                    "error", "Bad Request",
-                    "message", e.getMessage()
-                ));
+                    .body(Map.of(
+                            "error", "Bad Request",
+                            "message", e.getMessage()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of(
-                    "error", "Internal Server Error",
-                    "message", e.getMessage()
-                ));
+                    .body(Map.of(
+                            "error", "Internal Server Error",
+                            "message", e.getMessage()));
         }
     }
 
@@ -129,29 +120,26 @@ public class RessourceController {
             boolean deleted = ressourceService.deleteRessource(id);
             if (deleted) {
                 return ResponseEntity.ok(Map.of(
-                    "message", "Ressource deleted successfully",
-                    "deletedId", id
-                ));
+                        "message", "Ressource deleted successfully",
+                        "deletedId", id));
             } else {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Map.of(
-                        "error", "Not Found",
-                        "message", "Ressource not found with id: " + id
-                    ));
+                        .body(Map.of(
+                                "error", "Not Found",
+                                "message", "Ressource not found with id: " + id));
             }
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of(
-                    "error", "Internal Server Error",
-                    "message", e.getMessage()
-                ));
+                    .body(Map.of(
+                            "error", "Internal Server Error",
+                            "message", e.getMessage()));
         }
     }
 
     // GET /api/ressources/search?titre=... - Rechercher par titre
     @GetMapping("/search")
     public ResponseEntity<?> searchRessources(@RequestParam(required = false) String titre,
-                                             @RequestParam(required = false) String description) {
+            @RequestParam(required = false) String description) {
         try {
             List<Ressource> ressources;
 
@@ -168,19 +156,16 @@ public class RessourceController {
                     .collect(Collectors.toList());
 
             return ResponseEntity.ok(Map.of(
-                "ressources", ressourceDTOs,
-                "count", ressourceDTOs.size(),
-                "searchCriteria", Map.of(
-                    "titre", titre != null ? titre : "",
-                    "description", description != null ? description : ""
-                )
-            ));
+                    "ressources", ressourceDTOs,
+                    "count", ressourceDTOs.size(),
+                    "searchCriteria", Map.of(
+                            "titre", titre != null ? titre : "",
+                            "description", description != null ? description : "")));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of(
-                    "error", "Internal Server Error",
-                    "message", e.getMessage()
-                ));
+                    .body(Map.of(
+                            "error", "Internal Server Error",
+                            "message", e.getMessage()));
         }
     }
 
@@ -194,16 +179,14 @@ public class RessourceController {
                     .collect(Collectors.toList());
 
             return ResponseEntity.ok(Map.of(
-                "userId", userId,
-                "ressources", ressourceDTOs,
-                "count", ressourceDTOs.size()
-            ));
+                    "userId", userId,
+                    "ressources", ressourceDTOs,
+                    "count", ressourceDTOs.size()));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(Map.of(
-                    "error", "Internal Server Error",
-                    "message", e.getMessage()
-                ));
+                    .body(Map.of(
+                            "error", "Internal Server Error",
+                            "message", e.getMessage()));
         }
     }
 }

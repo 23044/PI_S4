@@ -1879,7 +1879,7 @@ public class AuthController {
     data.put("resumeThese", these != null ? these.getResume() : "");
     data.put("motClesthese", these != null ? these.getMotCles() : "");
     data.put("dateInscription", these != null ? these.getDateInscription() : null);
-    data.put("directeur", doctorant.getDirecteur().getUtilisateur().getUsername());
+    data.put("directeur", doctorant.getDirecteur().getUser().getUsername());
     data.put("role", doctorant.getUser().getRole());
 
     return ResponseEntity.ok(data);

@@ -1,5 +1,20 @@
 /* Authentication Pages Styling */
 
+
+
+.progress-bar {
+  background-color: #eee;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background-color: #2f49d1;
+  transition: width 0.5s ease;
+}
+
 /* Auth Container */
 .auth-main {
   min-height: calc(100vh - 200px);

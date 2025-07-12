@@ -23,7 +23,7 @@ public class Directeur {
 
     @OneToOne
     @JoinColumn(name = "user_id", unique = true)
-    private Users utilisateur;
+    private Users user;
 
     @OneToMany(mappedBy = "directeur")
     private Set<Doctorants> doctorants;

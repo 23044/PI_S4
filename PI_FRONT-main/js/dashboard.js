@@ -108,12 +108,146 @@ function initDashboardNav() {
   });
 }
 
+
+// thrs
+
+function calculerTempsRestant(anneeInscription) {
+  const now = new Date();
+  const fin = new Date((anneeInscription + 3), 0, 1); // 3 ans après inscription
+  let years = fin.getFullYear() - now.getFullYear();
+  let months = fin.getMonth() - now.getMonth();
+
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+
+  return `${years} ans ${months} mois`;
+}
+
+
 /**
  * Load dashboard data from stored user data
- */
+//  */
+// async function loadDashboardData() {
+
+
+//   try {
+//     const response = await fetch("http://localhost:8081/api/dashboard-info", {
+//       method: "GET",
+//       credentials: "include"
+//     });
+
+//     const data = await response.json();
+
+//     if (!response.ok) {
+//       console.error(data.error);
+//       return;
+//     }
+
+//     document.getElementById("overview-name").textContent = data.firstName || "Utilisateur";
+//     document.getElementById("user-name").textContent = (data.firstName + " " + data.lastName) || "Utilisateur";
+//     document.getElementById("user-role").textContent = (data.role) || "Utilisateur";
+
+//     const anneeEl = document.querySelector('.stat-icon.enrollment-icon').parentElement.querySelector('.stat-value');
+//     if (anneeEl) anneeEl.textContent = data.anneeInscription;
+
+//     const statutEl = document.querySelector('.stat-icon.thesis-status-icon').parentElement.querySelector('.stat-value');
+//     if (statutEl) statutEl.textContent = data.statutThese;
+
+//     const etapeEl = document.querySelector('.stat-icon.research-icon').parentElement.querySelector('.stat-value');
+//     if (etapeEl) etapeEl.textContent = "Rédaction de thèse";
+
+//     document.getElementById("thesis-title").textContent = data.titreThese;
+//     document.getElementById("thesis-abstract").textContent = data.resumeThese;
+
+//     const dateSoumission = document.getElementById("thesis-date");
+//     if (data.dateInscription && dateSoumission) {
+//       const formatted = new Date(data.dateInscription).toLocaleDateString("fr-FR", {
+//         year: "numeric",
+//         month: "long",
+//         day: "numeric"
+//       });
+//       dateSoumission.textContent = formatted;
+//     }
+//   } catch (err) {
+//     console.error("Erreur lors du chargement du tableau de bord :", err);
+//   }
+
+
+//   try{
+//   // const user = getData('doctolearn_user');
+//   const user = JSON.parse(localStorage.getItem('doctolearn_user'));
+//     const doctorant = JSON.parse(localStorage.getItem('doctorant'));
+//     const these = JSON.parse(localStorage.getItem('these'));
+//    const motClesString = these.motClesString;
+// const motClesArray = motClesString.split(",");
+
+// console.log(these);
+
+//   const theseInfo = document.getElementById('thesis-info');
+//   console.log("these infoooo1",theseInfo);
+//    console.log("these infoooo2",theseInfo);
+//   if(theseInfo){
+// //     if (these && these.statut) {
+// //   updateTimelineFromStatut(these.statut);
+// //   console.log('these.status:'+these.statut);
+// // }
+//     console.log(theseInfo);
+//     // const infoGroups = theseInfo.querySelectorAll('info-group');
+//     const infoGroups = theseInfo.querySelectorAll('.info-group'); 
+//     console.log(infoGroups);
+//     console.log('Info Groups:', infoGroups);
+//     const theseData = {
+//           'Titre' : these.titre,
+//             'Résumé' : these.resume,
+//             // 'Mots-clés' : motClesArray,
+//             'Date d`enregistrement' : these.dateInscription
+            
+            
+
+//     };
+//     infoGroups.forEach(group => {
+//       const label = group.querySelector('.info-label').textContent;
+//       const value = group.querySelector('.info-value');
+//         console.log('Label:', label); // Debugging log
+//     console.log('Value Element:', value); // Debu
+//       if(label && theseData[label]){
+//       value.textContent = theseData[label];
+//       }
+//       if(label === 'Mots-clés' ){
+//         const keywordList = group.querySelector('.keyword-list')
+//         console.log("keyword query selec ", keywordList);
+//         if(keywordList){
+//           keywordList.innerHTML="";
+//           motClesArray.forEach(keyword => {
+//             const keywordSpan = document.createElement('span');
+//             keywordSpan.className = 'keyword';
+//             keywordSpan.textContent = keyword.trim();
+//             keywordList.appendChild(keywordSpan);
+//           });
+//         }
+//       }
+//     });
+
+//   }
+//   if (these && these.statut) {
+//       updateTimeLineFromStatus(these.statut);
+//       console.log('these hhhhhhhhhhhhhhelp status:'+these.statut);
+//     }
+// }
+// catch (error) {
+//     console.error('Error loading dashboard data:', error);
+//   }
+  
+//   // if (user) {
+//   //   // Update thesis data
+//   //   const thesisTitle = document.getElementById('thesis-title');
+//   //   if (thesisTitle) thesisTitle.textContent = user.thesisTitle;
+//   // }
+// }
+
 async function loadDashboardData() {
-
-
   try {
     const response = await fetch("http://localhost:8081/api/dashboard-info", {
       method: "GET",
@@ -121,113 +255,22 @@ async function loadDashboardData() {
     });
 
     const data = await response.json();
-
     if (!response.ok) {
       console.error(data.error);
       return;
     }
 
-    document.getElementById("overview-name").textContent = data.firstName || "Utilisateur";
-    document.getElementById("user-name").textContent = (data.firstName + " " + data.lastName) || "Utilisateur";
-    document.getElementById("user-role").textContent = (data.role) || "Utilisateur";
+    // Mise à jour des valeurs dynamiques
+    document.getElementById("stat-etape").textContent = "Rédaction de thèse"; // ou une donnée réelle si disponible
+    document.getElementById("stat-annee").textContent = data.anneeInscription;
+    document.getElementById("stat-statut").textContent = data.statutThese;
+    document.getElementById("stat-temps").textContent = calculerTempsRestant(data.anneeInscription);
 
-    const anneeEl = document.querySelector('.stat-icon.enrollment-icon').parentElement.querySelector('.stat-value');
-    if (anneeEl) anneeEl.textContent = data.anneeInscription;
-
-    const statutEl = document.querySelector('.stat-icon.thesis-status-icon').parentElement.querySelector('.stat-value');
-    if (statutEl) statutEl.textContent = "En cours";
-
-    const etapeEl = document.querySelector('.stat-icon.research-icon').parentElement.querySelector('.stat-value');
-    if (etapeEl) etapeEl.textContent = "Rédaction de thèse";
-
-    document.getElementById("thesis-title").textContent = data.titreThese;
-    document.getElementById("thesis-abstract").textContent = data.resumeThese;
-
-    const dateSoumission = document.getElementById("thesis-date");
-    if (data.dateInscription && dateSoumission) {
-      const formatted = new Date(data.dateInscription).toLocaleDateString("fr-FR", {
-        year: "numeric",
-        month: "long",
-        day: "numeric"
-      });
-      dateSoumission.textContent = formatted;
-    }
   } catch (err) {
     console.error("Erreur lors du chargement du tableau de bord :", err);
   }
-
-
-  try{
-  // const user = getData('doctolearn_user');
-  const user = JSON.parse(localStorage.getItem('doctolearn_user'));
-    const doctorant = JSON.parse(localStorage.getItem('doctorant'));
-    const these = JSON.parse(localStorage.getItem('these'));
-   const motClesString = these.motClesString;
-const motClesArray = motClesString.split(",");
-
-console.log(these);
-
-  const theseInfo = document.getElementById('thesis-info');
-  console.log("these infoooo1",theseInfo);
-   console.log("these infoooo2",theseInfo);
-  if(theseInfo){
-//     if (these && these.statut) {
-//   updateTimelineFromStatut(these.statut);
-//   console.log('these.status:'+these.statut);
-// }
-    console.log(theseInfo);
-    // const infoGroups = theseInfo.querySelectorAll('info-group');
-    const infoGroups = theseInfo.querySelectorAll('.info-group'); 
-    console.log(infoGroups);
-    console.log('Info Groups:', infoGroups);
-    const theseData = {
-          'Titre' : these.titre,
-            'Résumé' : these.resume,
-            // 'Mots-clés' : motClesArray,
-            'Date d`enregistrement' : these.dateInscription
-            
-            
-
-    };
-    infoGroups.forEach(group => {
-      const label = group.querySelector('.info-label').textContent;
-      const value = group.querySelector('.info-value');
-        console.log('Label:', label); // Debugging log
-    console.log('Value Element:', value); // Debu
-      if(label && theseData[label]){
-      value.textContent = theseData[label];
-      }
-      if(label === 'Mots-clés' ){
-        const keywordList = group.querySelector('.keyword-list')
-        console.log("keyword query selec ", keywordList);
-        if(keywordList){
-          keywordList.innerHTML="";
-          motClesArray.forEach(keyword => {
-            const keywordSpan = document.createElement('span');
-            keywordSpan.className = 'keyword';
-            keywordSpan.textContent = keyword.trim();
-            keywordList.appendChild(keywordSpan);
-          });
-        }
-      }
-    });
-
-  }
-  if (these && these.statut) {
-      updateTimeLineFromStatus(these.statut);
-      console.log('these hhhhhhhhhhhhhhelp status:'+these.statut);
-    }
 }
-catch (error) {
-    console.error('Error loading dashboard data:', error);
-  }
-  
-  // if (user) {
-  //   // Update thesis data
-  //   const thesisTitle = document.getElementById('thesis-title');
-  //   if (thesisTitle) thesisTitle.textContent = user.thesisTitle;
-  // }
-}
+
 
 
 function initDashboardEdit(){
@@ -583,7 +626,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 async function loadDoctoralResources() {
   try {
-    const response = await fetch('http://localhost:8080/api/ressources/all');
+    const response = await fetch('http://localhost:8081/api/ressources/all');
     if (!response.ok) {
       throw new Error("Échec de récupération des ressources doctorales");
     }
@@ -612,4 +655,149 @@ async function loadDoctoralResources() {
   } catch (error) {
     console.error("Erreur lors du chargement des ressources doctorales :", error.message);
   }
+}
+
+
+fetch("/api/doctorant/echeances")
+  .then(res => res.json())
+  .then(data => {
+    const list = document.querySelector('.deadline-list');
+    list.innerHTML = "";
+
+    data.forEach(ev => {
+      const li = document.createElement('li');
+      li.classList.add('deadline-item');
+      li.innerHTML = `
+        <div class="deadline-date">
+          <span class="month">${ev.mois}</span>
+          <span class="day">${ev.jour}</span>
+        </div>
+        <div class="deadline-info">
+          <h4>${ev.titre}</h4>
+          <p>${ev.description}</p>
+        </div>
+        <div class="deadline-status ${ev.statut.toLowerCase()}">
+          <span>${ev.statut}</span>
+        </div>
+      `;
+      list.appendChild(li);
+    });
+  });
+
+document.addEventListener('DOMContentLoaded', function () {
+  chargerRessources();
+});
+
+function chargerRessources() {
+  fetch('http://localhost:8081/api/ressources/all', {
+    credentials: 'include',
+  })
+    .then(response => response.json())
+    .then(data => {
+      const list = document.getElementById('resources-list');
+      list.innerHTML = ''; // Clear existing
+
+      data.forEach(item => {
+        const li = document.createElement('li');
+        li.className = 'resource-item';
+
+        // Déterminer l'icône selon le titre
+        let iconClass = '';
+        if (item.titre.toLowerCase().includes('directive')) iconClass = 'document-icon';
+        else if (item.titre.toLowerCase().includes('calendrier')) iconClass = 'calendar-icon';
+        else iconClass = 'library-icon';
+
+        // Déterminer l'action
+        let actionText = 'Accéder';
+        if (item.titre.toLowerCase().includes('directive')) actionText = 'Télécharger';
+        else if (item.titre.toLowerCase().includes('calendrier')) actionText = 'Voir';
+
+        li.innerHTML = `
+          <div class="resource-icon ${iconClass}"></div>
+          <div class="resource-info">
+            <h4>${item.titre}</h4>
+            <p>${item.description}</p>
+          </div>
+          <a href="${item.lien}" class="resource-action" target="_blank" ${actionText === 'Télécharger' ? 'download' : ''}>${actionText}</a>
+        `;
+
+        list.appendChild(li);
+      });
+    })
+    .catch(err => {
+      console.error("Erreur de chargement des ressources :", err);
+    });
+}
+
+  function loadThesisSummary() {
+  const these = JSON.parse(localStorage.getItem('these'));
+  if (!these) return;
+
+  // Remplir le titre
+  document.getElementById("thesis-title").textContent = these.titre;
+
+  // Remplir la date
+  const dateEl = document.getElementById("thesis-date");
+  const dateObj = new Date(these.dateInscription);
+  dateEl.textContent = dateObj.toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
+
+  // Remplir le résumé
+  document.getElementById("thesis-abstract").textContent = these.resume;
+
+  // Progression (à adapter)
+  const progressPourcent = 45; // ou calculer dynamiquement si possible
+  document.querySelector(".progress").style.width = `${progressPourcent}%`;
+  document.querySelector(".progress-label span:last-child").textContent = `${progressPourcent}%`;
+}
+
+
+function calculerProgressionThese(dateInscription, dureeAnnee = 3) {
+  const debut = new Date(dateInscription);
+  const now = new Date();
+  const fin = new Date(debut);
+  fin.setFullYear(fin.getFullYear() + dureeAnnee);
+
+  const total = fin - debut;
+  const ecoule = now - debut;
+
+  let pourcentage = Math.round((ecoule / total) * 100);
+  if (pourcentage < 0) pourcentage = 0;
+  if (pourcentage > 100) pourcentage = 100;
+
+  return pourcentage;
+}
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const these = JSON.parse(localStorage.getItem("these"));
+  if (!these) return;
+
+  // Calcul de la progression
+  const progression = calculerProgression(these.dateInscription, these.dateFinVisee);
+
+  // Affichage dynamique
+  document.getElementById("thesis-title").textContent = these.titre || "Titre non défini";
+  document.getElementById("thesis-date").textContent = new Date(these.dateInscription).toLocaleDateString("fr-FR", {
+    year: "numeric", month: "long", day: "numeric"
+  });
+  document.getElementById("thesis-abstract").textContent = these.resume || "Résumé non disponible";
+  document.getElementById("progress-value").textContent = `${progression}%`;
+  document.getElementById("progress-bar").style.width = `${progression}%`;
+});
+
+function calculerProgression(dateInscription, dateFinVisee) {
+  if (!dateInscription || !dateFinVisee) return 0;
+
+  const debut = new Date(dateInscription);
+  const fin = new Date(dateFinVisee);
+  const now = new Date();
+
+  const total = fin - debut;
+  const passe = now - debut;
+
+  if (total <= 0 || passe < 0) return 0;
+
+  return Math.min(Math.round((passe / total) * 100), 100);
 }
