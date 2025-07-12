@@ -1126,6 +1126,37 @@ public class AuthController {
         // Don't fail login if doctorant data is missing, just log the error
       }
     }
+    
+    // Handle encadrant-specific data for encadrant users
+    if (user.getRole() == Users.Role.encadrant) {
+      try {
+        Optional<Encadrant> encadrantOptional = encadrantRepository.findByUtilisateurId(user.getId());
+        
+        if (encadrantOptional.isPresent()) {
+          Encadrant encadrant = encadrantOptional.get();
+          Map<String, Object> encadrantMap = new HashMap<>();
+          
+          // Always add the ID
+          encadrantMap.put("id", encadrant.getId());
+          
+          // Add fields with null checks
+          if (encadrant.getGrade() != null) {
+            encadrantMap.put("grade", encadrant.getGrade());
+          }
+          if (encadrant.getSpecialite() != null) {
+            encadrantMap.put("specialite", encadrant.getSpecialite());
+          }
+          
+          response.put("encadrant", encadrantMap);
+        } else {
+          System.err.println("No encadrant data found for user ID: " + user.getId());
+          // Don't fail login if encadrant data is missing, just log the error
+        }
+      } catch (Exception e) {
+        System.err.println("Error fetching encadrant data: " + e.getMessage());
+        // Don't fail login if encadrant data is missing, just log the error
+      }
+    }
 
     return ResponseEntity.ok(response);
 

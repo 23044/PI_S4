@@ -38,6 +38,8 @@ public interface TheseRepository extends JpaRepository<These, Long> {
 
     long countByStatut(Statut statut);
 
+    List<These> findByEncadrantId(Long encadrantId);
+
     // @Query("SELECT t FROM These t WHERE t.motCles LIKE %:keyword%")
     // List<These> findByMotClesContaining(@Param("keyword") String keyword);
 }

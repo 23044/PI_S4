@@ -1,7 +1,8 @@
 package com.example.backend.Configuration;
 
-import com.example.backend.jwtModule.services.MyUserDetailsService;
-import com.example.backend.jwtModule.utils.JwtFilter;
+import java.util.Arrays;
+import java.util.Properties;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -17,8 +18,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import java.util.Arrays;
-import java.util.Properties;
+import com.example.backend.jwtModule.services.MyUserDetailsService;
+import com.example.backend.jwtModule.utils.JwtFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -46,7 +47,8 @@ public class SecurityConfig {
                                 "/unites-recherche", "/ecoles-doctorales", "/", "/css/**", "/js/**",
                                 "/api/doctorant/dashboard/**",
                                 "/upload-file", "/api/files/upload", "/api/files/uploads",
-                                "/api/files/download/**", "/api/files/view/**", "/api/files/list")
+                                "/api/files/download/**", "/api/files/view/**", "/api/files/list","/api/etablissements",
+                                "/api/encadrants","/api/directeurs","/api/unites-recherche","/file/keywords.json","/api/theses/all","/api/encadrants/**","/**")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMINISTRATEUR")
                         .requestMatchers("/directeur/**").hasRole("DIRECTEUR")

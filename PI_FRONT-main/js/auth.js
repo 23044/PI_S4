@@ -9,12 +9,13 @@ document.addEventListener("DOMContentLoaded", function () {
   const roleSelect = document.getElementById('role');
   if (roleSelect) {
     roleSelect.addEventListener('change', function() {
-      if (this.value === 'encadrant') {
-        setRequiredOnStep('step-academic', false);
-        setRequiredOnStep('step-thesis', false);
-      } else {
+      if (this.value === 'doctorant') {
         setRequiredOnStep('step-academic', true);
         setRequiredOnStep('step-thesis', true);
+        
+      } else {
+        setRequiredOnStep('step-academic', false);
+        setRequiredOnStep('step-thesis', false);
       }
     });
   } 
@@ -301,7 +302,11 @@ function initLoginForm() {
         } 
         
         else if(user.role == "encadrant"){
+          if(data.encadrant) localStorage.setItem("encadrant",JSON.stringify(data.encadrant));
          window.location.href = "supervisor-dashboard.html";
+        }
+        else if(user.role == "directeur"){
+          window.location.href = "professor-dashboard.html";
         }
         else {
           showToast(data.error || "Login failed", "error");
@@ -923,6 +928,9 @@ function initMultiStepForm() {
     });
   }
 }
+
+// Make initMultiStepForm globally accessible
+window.initMultiStepForm = initMultiStepForm;
 
 /**
  * Validates a form step

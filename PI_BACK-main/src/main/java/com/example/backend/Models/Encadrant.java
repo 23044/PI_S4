@@ -1,10 +1,13 @@
 package com.example.backend.Models;
 
+import java.util.List;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -27,4 +30,9 @@ public class Encadrant { // Supervisor -> Superviseur
     @OneToOne
     @JoinColumn(name = "user_id")
     private Users utilisateur; // user -> utilisateur
+    
+
+    // @OneToMany
+    // @JoinColumn(name = "")
+    // private List<Reunion> reunion;
 }

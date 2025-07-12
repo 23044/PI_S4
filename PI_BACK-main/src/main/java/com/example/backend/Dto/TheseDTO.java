@@ -29,6 +29,7 @@ public class TheseDTO {
     private These.Statut statut;
     private Long doctorantId; // Simple ID instead of full object
     private Long chercheurId; // Simple ID instead of full object
+    private Long encadrantId;
 
     // Constructor from entity (for responses)
     public TheseDTO(These these) {
@@ -48,6 +49,7 @@ public class TheseDTO {
         this.statut = these.getStatut();
         this.doctorantId = these.getDoctorant() != null ? these.getDoctorant().getId() : null;
         this.chercheurId = these.getChercheur() != null ? these.getChercheur().getId() : null;
+        this.encadrantId = these.getEncadrant() != null ? these.getEncadrant().getId() : null;
     }
 
     // private TheseDto these; lipawa4477@exitbit.com

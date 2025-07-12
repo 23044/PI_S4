@@ -6,8 +6,10 @@
   <title>Supervisor Dashboard - DoctoLearn</title>
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/meetings.css">
   <script src="../js/main.js" defer></script>
   <script src="../js/dashboard.js" defer></script>
+  <script src="../js/meetings.js" defer></script>
 </head>
 <body>
   <div class="dashboard-layout">
@@ -36,7 +38,7 @@
           <li><a href="#" class="active" data-section="overview"><span class="nav-icon overview-icon"></span>Overview</a></li>
           <li><a href="#" data-section="students"><span class="nav-icon supervisors-icon"></span>My Students</a></li>
           <li><a href="#" data-section="reviews"><span class="nav-icon thesis-icon"></span>Thesis Reviews</a></li>
-          <li><a href="#" data-section="meetings"><span class="nav-icon calendar-icon"></span>Meetings</a></li>
+          <li><a href="#" data-section="meetings"><span class="nav-icon calendar-icon"></span>Réunions</a></li>
           <li><a href="#" data-section="messages"><span class="nav-icon messages-icon"></span>Messages</a></li>
           <li><a href="#" data-section="profile"><span class="nav-icon profile-icon"></span>My Profile</a></li>
           <li><a href="#" data-section="settings"><span class="nav-icon settings-icon"></span>Settings</a></li>
@@ -307,9 +309,225 @@
       </section>
       
       <section id="meetings" class="dashboard-section">
-        <div class="section-header">
+        <!-- <div class="section-header">
           <h2>Meetings</h2>
           <p>Schedule and manage student consultations</p>
+        </div> -->
+         <div class="meetings-container">
+          <div class="meetings-header">
+            <div class="meetings-title">
+              <h2>Gestion des Réunions</h2>
+              <p>Planifier et gérer les consultations d'étudiants</p>
+            </div>
+            <div class="meetings-actions">
+              <button class="btn btn-primary" id="new-meeting-btn">
+                <span class="btn-icon">+</span>
+                Planifier Nouvelle Réunion
+              </button>
+            </div>
+          </div>
+
+          <div class="meetings-toolbar">
+            <div class="toolbar-left">
+              <div class="view-toggles">
+                <button class="view-btn active" data-view="calendar">
+                  <span class="view-icon">📅</span>
+                  Calendrier
+                </button>
+                <button class="view-btn" data-view="list">
+                  <span class="view-icon">📋</span>
+                  Liste
+                </button>
+              </div>
+            </div>
+            <div class="toolbar-right">
+              <div class="filters">
+                <select id="meeting-filter" class="filter-select">
+                  <option value="tous">Toutes les Réunions</option>
+                  <option value="aujourdhui">Aujourd'hui</option>
+                  <option value="semaine">Cette Semaine</option>
+                  <option value="mois">Ce Mois</option>
+                  <option value="a-venir">À Venir</option>
+                  <option value="passees">Passées</option>
+                </select>
+                <select id="student-filter" class="filter-select">
+                  <option value="tous">Tous les Étudiants</option>
+                  <option value="john-smith">Jean Dupont</option>
+                  <option value="sarah-johnson">Sarah Martin</option>
+                  <option value="michael-brown">Michel Bernard</option>
+                  <option value="emma-wilson">Emma Dubois</option>
+                  <option value="robert-davis">Robert Moreau</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Calendar View -->
+          <div id="calendar-view" class="meeting-view active">
+            <div class="calendar-container">
+              <div class="calendar-header">
+                <div class="calendar-nav">
+                  <button class="nav-btn" id="prev-month">‹</button>
+                  <h3 id="current-month">Juin 2024</h3>
+                  <button class="nav-btn" id="next-month">›</button>
+                </div>
+                <div class="calendar-actions">
+                  <button class="btn btn-secondary" id="today-btn">Aujourd'hui</button>
+                </div>
+              </div>
+              
+              <div class="calendar-grid">
+                <div class="calendar-weekdays">
+                  <div class="weekday">Dim</div>
+                  <div class="weekday">Lun</div>
+                  <div class="weekday">Mar</div>
+                  <div class="weekday">Mer</div>
+                  <div class="weekday">Jeu</div>
+                  <div class="weekday">Ven</div>
+                  <div class="weekday">Sam</div>
+                </div>
+                <div class="calendar-days" id="calendar-days">
+                  <!-- Calendar days will be generated by JavaScript -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- List View -->
+          <div id="list-view" class="meeting-view">
+            <div class="meetings-list-container">
+              <div class="meetings-list" id="meetings-list">
+                <!-- Meetings will be populated by JavaScript -->
+              </div>
+            </div>
+          </div>
+
+          <!-- Loading State -->
+          <div id="loading-state" class="loading-state" style="display: none;">
+            <div class="loading-spinner"></div>
+            <p>Chargement des réunions...</p>
+          </div>
+
+          <!-- Empty State -->
+          <div id="empty-state" class="empty-state" style="display: none;">
+            <div class="empty-icon">📅</div>
+            <h3>Aucune réunion trouvée</h3>
+            <p>Aucune réunion ne correspond à vos filtres ou critères de recherche actuels.</p>
+            <button class="btn btn-primary" id="create-first-meeting">Planifier Votre Première Réunion</button>
+          </div>
+        </div>
+
+        <!-- Meeting Details Modal -->
+        <div id="meeting-modal" class="modal">
+          <div class="modal-overlay"></div>
+          <div class="modal-content">
+            <div class="modal-header">
+              <h3 id="modal-title">Détails de la Réunion</h3>
+              <button class="modal-close" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body" id="modal-body">
+              <!-- Modal content will be populated by JavaScript -->
+            </div>
+          </div>
+        </div>
+
+        <!-- New Meeting Form Modal -->
+        <div id="new-meeting-modal" class="modal">
+          <div class="modal-overlay"></div>
+          <div class="modal-content modal-large">
+            <div class="modal-header">
+              <h3 id="form-modal-title">Planifier Nouvelle Réunion</h3>
+              <button class="modal-close" id="close-new-meeting-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <form id="new-meeting-form" class="meeting-form">
+                <div class="form-grid">
+                  <div class="form-group full-width">
+                    <label for="meeting-title">Titre de la Réunion *</label>
+                    <input type="text" id="meeting-title" name="title" required placeholder="Entrer le titre de la réunion">
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="meeting-student">Étudiant *</label>
+                    <select id="meeting-student" name="student" required>
+                      <option value="">Sélectionner l'Étudiant</option>
+                      <option value="john-smith">Jean Dupont</option>
+                      <option value="sarah-johnson">Sarah Martin</option>
+                      <option value="michael-brown">Michel Dubois</option>
+                      <option value="emma-wilson">Emma Wilson</option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="meeting-type">Type de Réunion *</label>
+                    <select id="meeting-type" name="type" required>
+                      <option value="consultation">Consultation</option>
+                      <option value="suivi-progres">Suivi de Progrès</option>
+                      <option value="soutenance-these">Soutenance de Thèse</option>
+                      <option value="discussion-recherche">Discussion de Recherche</option>
+                      <option value="revue-proposition">Révision de Proposition</option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="meeting-date">Date *</label>
+                    <input type="date" id="meeting-date" name="date" required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="meeting-time">Heure *</label>
+                    <input type="time" id="meeting-time" name="time" required>
+                  </div>
+                  
+                  <div class="form-group">
+                    <label for="meeting-duration">Durée</label>
+                    <select id="meeting-duration" name="duration">
+                      <option value="30">30 minutes</option>
+                      <option value="60" selected>1 heure</option>
+                      <option value="90">1h30</option>
+                      <option value="120">2 heures</option>
+                    </select>
+                  </div>
+                  
+                  <div class="form-group full-width">
+                    <label for="meeting-location">Lieu</label>
+                    <input type="text" id="meeting-location" name="location" placeholder="Bureau, En ligne, etc.">
+                  </div>
+                  
+                  <div class="form-group full-width">
+                    <label for="meeting-description">Description/Agenda</label>
+                    <textarea id="meeting-description" name="description" rows="4" placeholder="Agenda ou description de la réunion..."></textarea>
+                  </div>
+                </div>
+                
+                <div class="form-actions">
+                  <button type="button" class="btn btn-secondary" id="cancel-meeting">Annuler</button>
+                  <button type="submit" class="btn btn-primary" id="submit-meeting">
+                    <span class="btn-loading" style="display: none;">⏳</span>
+                    <span class="btn-text">Planifier la Réunion</span>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- Confirmation Modal -->
+        <div id="confirm-modal" class="modal">
+          <div class="modal-overlay"></div>
+          <div class="modal-content modal-small">
+            <div class="modal-header">
+              <h3 id="confirm-title">Confirmer l'Action</h3>
+              <button class="modal-close" id="close-confirm-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <p id="confirm-message">Êtes-vous sûr de vouloir effectuer cette action ?</p>
+              <div class="form-actions">
+                <button type="button" class="btn btn-secondary" id="confirm-cancel">Annuler</button>
+                <button type="button" class="btn btn-danger" id="confirm-action">Confirmer</button>
+              </div>
+            </div>
+          </div>
         </div>
         <!-- Meeting management content -->
       </section>

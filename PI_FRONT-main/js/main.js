@@ -57,15 +57,8 @@ function initLogout() {
       
       // For demo purposes, show a confirmation dialog
       if (confirm('Are you sure you want to log out?')) {
-        // Clear stored session data
-         const user = JSON.parse(localStorage.getItem('doctolearn_user'));
-        if(user.role == "doctorant"){
-        localStorage.removeItem('doctolearn_user');
-        localStorage.removeItem('doctolearn_token');
-        localStorage.removeItem('these');
-        localStorage.removeItem('doctorant');
-        }
-        localStorage.removeItem('doctolearn_user');
+        // Clear all stored data from localStorage
+        localStorage.clear();
         
         // Redirect to login page
         window.location.href = '../pages/login.html';

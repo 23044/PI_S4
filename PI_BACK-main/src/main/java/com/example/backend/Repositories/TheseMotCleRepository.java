@@ -20,4 +20,5 @@ public interface TheseMotCleRepository extends JpaRepository<TheseMotCle,Long>{
     TheseMotCle findByTheseId(Long theseId);
     
     
+    
 } 

@@ -353,38 +353,53 @@ document.addEventListener('DOMContentLoaded', function() {
   const encadrantFields = document.getElementById('encadrant-fields');
   const personalActions = document.getElementById('personal-actions');
   
-  if (roleSelect) {
-    roleSelect.addEventListener('change', function() {
-      if (this.value === 'encadrant') {
-        // Show encadrant fields
-        encadrantFields.style.display = 'block';
-        
-        // Make encadrant fields required
-        const encadrantInputs = encadrantFields.querySelectorAll('input, select');
-        encadrantInputs.forEach(input => {
-          input.setAttribute('required', 'required');
-        });
-        
-        // Change buttons to submit form directly
-        personalActions.innerHTML = `
-          <button type="submit" class="btn btn-primary">Créer le compte</button>
-        `;
-      } else {
-        // Hide encadrant fields
-        encadrantFields.style.display = 'none';
-        
-        // Remove required attribute from encadrant fields
-        const encadrantInputs = encadrantFields.querySelectorAll('input, select');
-        encadrantInputs.forEach(input => {
-          input.removeAttribute('required');
-        });
-        
-        // Restore normal continue button
-        personalActions.innerHTML = `
-          <button type="button" class="btn btn-primary btn-next">Continuer</button>
-        `;
+  function handleRoleChange() {
+    if (roleSelect.value === 'encadrant') {
+      // Show encadrant fields
+      encadrantFields.style.display = 'block';
+      
+      // Make encadrant fields required
+      const encadrantInputs = encadrantFields.querySelectorAll('input, select');
+      encadrantInputs.forEach(input => {
+        input.setAttribute('required', 'required');
+      });
+      
+      // Change buttons to submit form directly
+      personalActions.innerHTML = `
+        <button type="submit" class="btn btn-primary">Créer le compte</button>
+      `;
+    } else {
+      // Hide encadrant fields
+      encadrantFields.style.display = 'none';
+      
+      // Remove required attribute from encadrant fields
+      const encadrantInputs = encadrantFields.querySelectorAll('input, select');
+      encadrantInputs.forEach(input => {
+        input.removeAttribute('required');
+      });
+      
+      // Restore normal continue button
+      personalActions.innerHTML = `
+        <button type="button" class="btn btn-primary btn-next">Continuer</button>
+      `;
+      
+      // Re-attach event listeners to the new Continue button
+      const newContinueButton = personalActions.querySelector('.btn-next');
+      if (newContinueButton && window.initMultiStepForm) {
+        // Re-initialize the multi-step form to attach event listeners
+        setTimeout(() => {
+          window.initMultiStepForm();
+        }, 100);
       }
-    });
+    }
+  }
+  
+  if (roleSelect) {
+    // Set initial state when page loads
+    handleRoleChange();
+    
+    // Handle role changes
+    roleSelect.addEventListener('change', handleRoleChange);
   }
 });
 </script>
