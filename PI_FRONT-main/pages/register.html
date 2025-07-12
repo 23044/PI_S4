@@ -135,8 +135,8 @@
     <input type="text" id="specialite" name="specialite" placeholder="Votre domaine de spécialité">
   </div>
 <div class="form-group">
-                <label for="doctoral-school">École doctorale</label>
-                <select id="doctoral-school" name="doctoral-school" required>
+                <label for="encadrant-doctoral-school">École doctorale</label>
+                <select id="encadrant-doctoral-school" name="encadrant-doctoral-school">
                   <option value="">Sélectionnez une école doctorale</option>
                   <option value="school1">École d'Ingénierie</option>
                   <option value="school2">École des Sciences</option>
@@ -330,20 +330,20 @@
   </footer>
   <script>
 
-document.addEventListener('DOMContentLoaded', function() {
-  const roleSelect = document.getElementById('role'); 
-  const encadrantFields = document.getElementById('encadrant-fields');
+// document.addEventListener('DOMContentLoaded', function() {
+//   const roleSelect = document.getElementById('role'); 
+//   const encadrantFields = document.getElementById('encadrant-fields');
   
-  if (roleSelect) {
-    roleSelect.addEventListener('change', function() {
-      if (this.value === 'encadrant') {
-        encadrantFields.style.display = 'block';
-      } else {
-        encadrantFields.style.display = 'none';
-      }
-    });
-  }
-});
+//   if (roleSelect) {
+//     roleSelect.addEventListener('change', function() {
+//       if (this.value === 'encadrant') {
+//         encadrantFields.style.display = 'block';
+//       } else {
+//         encadrantFields.style.display = 'none';
+//       }
+//     });
+//   }
+// });
 
 
 </script>
@@ -359,6 +359,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Show encadrant fields
         encadrantFields.style.display = 'block';
         
+        // Make encadrant fields required
+        const encadrantInputs = encadrantFields.querySelectorAll('input, select');
+        encadrantInputs.forEach(input => {
+          input.setAttribute('required', 'required');
+        });
+        
         // Change buttons to submit form directly
         personalActions.innerHTML = `
           <button type="submit" class="btn btn-primary">Créer le compte</button>
@@ -366,6 +372,12 @@ document.addEventListener('DOMContentLoaded', function() {
       } else {
         // Hide encadrant fields
         encadrantFields.style.display = 'none';
+        
+        // Remove required attribute from encadrant fields
+        const encadrantInputs = encadrantFields.querySelectorAll('input, select');
+        encadrantInputs.forEach(input => {
+          input.removeAttribute('required');
+        });
         
         // Restore normal continue button
         personalActions.innerHTML = `
