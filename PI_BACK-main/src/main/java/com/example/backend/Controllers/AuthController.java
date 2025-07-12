@@ -1108,7 +1108,7 @@ public class AuthController {
             if (these.getStatut() != null)
               theseMap.put("statut", these.getStatut());
             if (these.getEncadrant() != null)
-              theseMap.put("encadrant", these.getEncadrant().getUtilisateur().getUsername());
+              theseMap.put("encadrant", these.getEncadrant().getUser().getUsername());
             // TheseMotCle theseMotCle = theseMotCleRepository.findByTheseId(these.getId());
             // var motClee = motCleRepository.findById(theseMotCle.getMotCle().getId());
             // MotCle motCleee = motClee.get();
@@ -1337,7 +1337,7 @@ public class AuthController {
           return ResponseEntity.badRequest().body(Map.of("error", "Champs du encadrant manquants"));
         }
         Encadrant newEncadrant = Encadrant.builder().grade(encadrant.getGrade()).specialite(encadrant.getSpecialite())
-            .utilisateur(newUser).build();
+            .user(newUser).build();
         encadrantRepository.save(newEncadrant);
         // encadrant.setGrade(encadrant.getGrade());
         // encadrant.setSpecialite(encadrant.getSpecialite());
@@ -1848,7 +1848,7 @@ public class AuthController {
     data.put("resumeThese", these != null ? these.getResume() : "");
     data.put("motClesthese", these != null ? these.getMotCles() : "");
     data.put("dateInscription", these != null ? these.getDateInscription() : null);
-    data.put("directeur", doctorant.getDirecteur().getUtilisateur().getUsername());
+    data.put("directeur", doctorant.getDirecteur().getUser().getUsername());
     data.put("role", doctorant.getUser().getRole());
 
     return ResponseEntity.ok(data);

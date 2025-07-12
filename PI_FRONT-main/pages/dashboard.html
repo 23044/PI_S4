@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tableau de bord - Theses MR</title>
   <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <link rel="stylesheet" href="../css/dashboard.css">
   <script src="../js/main.js" defer></script>
   <!-- <script src="../js/TheseMgmt.js"></script> -->
@@ -39,8 +41,12 @@
           <li><a href="#" class="active" data-section="overview"><span class="nav-icon overview-icon"></span>Aperçu</a></li>
           <li><a href="#" data-section="profile"><span class="nav-icon profile-icon"></span>Mon Profil</a></li>
           <li><a href="#" data-section="thesis"><span class="nav-icon thesis-icon"></span>Gestion de Thèse</a></li>
-          <li><a href="#" data-section="supervisors"><span class="nav-icon supervisors-icon"></span>Directeurs</a></li>
-          <li><a href="#" data-section="messages"><span class="nav-icon messages-icon"></span>Messages</a></li>
+<li>
+  <a href="#" data-section="notifications">
+    <span class="nav-icon notifications-icon"></span>Notifications
+    <span id="notification-badge" class="badge">0</span>
+  </a>
+</li>          <li><a href="#" data-section="messages"><span class="nav-icon messages-icon"></span>Messages</a></li>
           <li><a href="#" data-section="settings"><span class="nav-icon settings-icon"></span>Paramètres</a></li>
         </ul>
       </nav>
@@ -64,7 +70,7 @@
             <button class="search-btn"></button>
           </div>
           <div class="header-notifications">
-            <button class="notification-btn"><span class="badge">3</span></button>
+            <button class="notification-btn" ><a href="#" data-section="notifications"><span class="badge" id="notification-txt">1</span></a></button>
           </div>
         </div>
       </header>
@@ -131,13 +137,13 @@
             </div>
           </div>
           
-          <div class="card upcoming-card">
+          <div class="card upcoming-card" >
             <div class="card-header">
               <h3>Échéances à venir</h3>
               <a href="#" class="card-action">Tout voir</a>
             </div>
             <div class="card-body">
-              <ul class="deadline-list">
+              <ul class="deadline-list" id="deadline-list">
                 <li class="deadline-item">
                   <div class="deadline-date">
                     <span class="month">Juin</span>
@@ -189,6 +195,12 @@
               <a href="#" class="card-action" data-section="supervisors">Tout voir</a>
             </div>
             <div class="card-body">
+  <div class="supervisor-list" id="supervisor-list">
+    <!-- Le contenu sera injecté dynamiquement ici -->
+  </div>
+</div>
+
+            <!-- <div class="card-body">
               <div class="supervisor-list">
                 <div class="supervisor-item">
                   <div class="supervisor-avatar">
@@ -217,7 +229,7 @@
                   </div>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
           
           <div class="card resources-card">
@@ -227,6 +239,33 @@
               </div>
               <div class="card-body">
                 <ul class="resources-list">
+                  <li class="resource-item">
+                    <div class="resource-icon document-icon"></div>
+                    <div class="resource-info">
+                      <h4>Directives de mise en forme</h4>
+                      <p>Exigences officielles pour la mise en forme des thèses</p>
+                    </div>
+                    <a id="telecharger-link" href="#" class="resource-action" download>Télécharger</a>
+                  </li>
+                  <li class="resource-item">
+                    <div class="resource-icon calendar-icon"></div>
+                    <div class="resource-info">
+                      <h4>Calendrier académique 2025</h4>
+                      <p>Dates importantes et échéances pour les doctorants</p>
+                    </div>
+                    <a id="voir-link" href="#" class="resource-action" target="_blank">Voir</a>
+                  </li>
+                  <li class="resource-item">
+                    <div class="resource-icon library-icon"></div>
+                    <div class="resource-info">
+                      <h4>Ressources de recherche</h4>
+                      <p>Accès aux revues, bases de données et matériel de recherche</p>
+                    </div>
+                    <a id="acceder-link" href="#" class="resource-action" target="_blank">Accéder</a>
+                  </li>
+                </ul>
+                
+                <!-- <ul class="resources-list">
                   <li class="resource-item">
                     <div class="resource-icon document-icon"></div>
                     <div class="resource-info">
@@ -251,7 +290,7 @@
                     </div>
                     <a id="acceder-link" href="#" class="resource-action" target="_blank" rel="noopener noreferrer">Accéder</a>
                   </li>
-                </ul>
+                </ul> -->
               </div>
           </div>
         </div>
@@ -661,16 +700,18 @@
       </section>
       
       <!-- Espace réservé pour autres sections -->
-      <section id="supervisors" class="dashboard-section">
-        <div class="section-header">
-          <h2>Équipe de direction</h2>
-          <p>Informations sur votre directeur et superviseur de thèse</p>
-        </div>
-        <!-- Contenu des directeurs sera implémenté ultérieurement -->
-        <div class="placeholder-message">
-          <p>Les informations sur l'équipe de direction seront bientôt disponibles.</p>
-        </div>
-      </section>
+<!-- Section principale -->
+<section id="notifications" class="dashboard-section">
+  <div class="section-header">
+    <h2>Notifications</h2>
+    <p>Alertes sur vos échéances et messages non lus</p>
+  </div>
+
+  <div class="notification-list" id="notifications-content">
+    <p>Chargement des notifications...</p>
+  </div>
+</section>
+
       
 <section id="messages" class="dashboard-section">
   
@@ -696,7 +737,7 @@
     </div>
 
     <!-- Zone de chat -->
-    <div class="chat-box">
+    <div class="chat-box" id="chat-box">
       <div id="chatHeader" class="chat-header">Conversation</div>
       <div id="chatWindow" class="chat-window">
         <p>Sélectionnez une conversation</p>
@@ -721,11 +762,243 @@
           <p>Gérez les paramètres et préférences de votre compte</p>
         </div>
         <!-- Contenu des paramètres sera implémenté ultérieurement -->
-        <div class="placeholder-message">
+        <!-- <div class="placeholder-message">
           <p>Les paramètres du compte seront bientôt disponibles.</p>
-        </div>
+        </div> -->
+        <form id="settings-form">
+  <div class="form-group">
+    <label for="language">Langue de l'interface</label>
+    <select id="language" class="form-control">
+      <option value="fr">Français</option>
+      <option value="en">English</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label>Notifications Email</label>
+    <div class="checkbox-group">
+      <label><input type="checkbox" checked> Recevoir un email pour chaque message</label><br>
+      <label><input type="checkbox" checked> Être notifié des échéances importantes</label><br>
+      <label><input type="checkbox"> Alertes sur l'avancement de thèse</label>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="new-password">Changer le mot de passe</label>
+    <input type="password" id="new-password" class="form-control" placeholder="Nouveau mot de passe">
+  </div>
+
+  <div class="form-group">
+    <label for="confirm-password">Confirmer le mot de passe</label>
+    <input type="password" id="confirm-password" class="form-control" placeholder="Confirmer le mot de passe">
+  </div>
+
+  <div class="form-actions">
+    <button type="submit" class="btn btn-primary">Sauvegarder</button>
+    <button type="reset" class="btn btn-secondary">Annuler</button>
+  </div>
+</form>
+
       </section>
     </div>
   </div>
+
+  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  fetch('http://localhost:8081/api/ressources/all', {
+    credentials: 'include'
+  })
+    .then(res => res.json())
+    .then(data => {
+      data.forEach(res => {
+        if (res.titre.includes('Directives')) {
+          document.getElementById('telecharger-link').href = res.lien;
+        } else if (res.titre.includes('Calendrier')) {
+          document.getElementById('voir-link').href = res.lien;
+        } else if (res.titre.includes('Ressources')) {
+          document.getElementById('acceder-link').href = res.lien;
+        }
+      });
+    })
+    .catch(err => console.error('Erreur lors du chargement des ressources :', err));
+});
+
+
+
+    document.addEventListener("DOMContentLoaded", () => {
+      fetch("http://localhost:8081/api/doctorant/echeances", {
+        method: "GET",
+        credentials: "include" // important pour les cookies JWT
+      })
+      .then(res => res.json())
+      .then(data => {
+        const list = document.getElementById("deadline-list");
+        list.innerHTML = ""; // on vide l'ancien contenu
+    
+        data.forEach(item => {
+          const statutClass = getStatutClass(item.statut);
+    
+          const li = document.createElement("li");
+          li.className = "deadline-item";
+    console.log(data);
+          li.innerHTML = `
+            <div class="deadline-date">
+              <span class="month">${item.mois}</span>
+              <span class="day">${item.jour}</span>
+            </div>
+            <div class="deadline-info">
+              <h4>${item.titre}</h4>
+              <p>${item.description}</p>
+            </div>
+            <div class="deadline-status ${statutClass}">
+              <span>${item.statut}</span>
+            </div>
+          `;
+    
+          list.appendChild(li);
+        });
+      })
+      .catch(err => console.error("Erreur de chargement des échéances :", err));
+    });
+    
+    function getStatutClass(statut) {
+      switch (statut.toLowerCase()) {
+        case "urgent": return "urgent";
+        case "à venir": return "upcoming";
+        case "planifié": return "planned";
+        default: return "";
+      }
+    }
+    </script>
+    <script>
+document.addEventListener("DOMContentLoaded", () => {
+  fetch("http://localhost:8081/api/doctorant/equipe-direction", { credentials: 'include' })
+    .then(response => {
+      console.log("Réponse brute:", response);
+      return response.json();
+    })
+    .then(data => {
+      console.log("Données équipe:", data);
+      displayEquipe(data);
+    })
+    .catch(error => console.error("Erreur fetch équipe:", error));
+});
+
+function displayEquipe(equipe) {
+  const container = document.getElementById("supervisor-list");
+  container.innerHTML = "";
+
+  equipe.forEach(member => {
+    const initials = getInitials(member.prenom, member.nom);
+    const fullName = `${getTitle(member.role)} ${member.prenom} ${member.nom}`;
+    const mail = member.email;
+
+    const card = document.createElement("div");
+    card.className = "supervisor-item";
+    card.innerHTML = `
+      <div class="supervisor-avatar">
+        <div class="avatar-placeholder">${initials}</div>
+      </div>
+      <div class="supervisor-info">
+        <h4>${fullName}</h4>
+        <p>${member.role} de thèse</p>
+        <div class="supervisor-contact">
+          <a href="mailto:${mail}" class="contact-link email">Email</a>
+          <a href="#" class="contact-link message" data-email="${mail}">Message</a>
+        </div>
+      </div>
+    `;
+
+    // ⬇️ Ajouter le bouton et son écouteur juste après création
+    card.querySelector(".contact-link.message").addEventListener("click", function (e) {
+      e.preventDefault();
+
+      const email = this.getAttribute("data-email");
+
+      // Aller vers la section "messages"
+      document.querySelectorAll(".dashboard-section").forEach(section =>
+        section.classList.remove("active")
+      );
+      document.getElementById("messages").classList.add("active");
+
+      // Remplir et simuler la création de conversation
+      const input = document.getElementById("newConversationEmail");
+      input.value = email;
+
+      // Déclencher la conversation
+      document.getElementById("startConversationBtn").click();
+    });
+
+    container.appendChild(card);
+  });
+}
+
+
+
+function getInitials(prenom, nom) {
+  const p = prenom?.charAt(0).toUpperCase() || '';
+  const n = nom?.charAt(0).toUpperCase() || '';
+  return p + n;
+}
+
+function getTitle(role) {
+  const r = role.toLowerCase();
+  if (r.includes("directeur")) return "Prof.";
+  if (r.includes("encadrant") || r.includes("superviseur")) return "Dr.";
+  return "";
+}
+</script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  loadNotificationSummary();
+});
+
+function loadNotificationSummary() {
+  fetch("http://localhost:8081/api/doctorant/notifications", {
+    credentials: "include"
+  })
+    .then(res => res.json())
+    .then(data => {
+      const { nbEcheancesUrgentes, nbMessagesNonLus } = data;
+      const total = nbEcheancesUrgentes + nbMessagesNonLus;
+      const badge = document.getElementById("notification-badge");
+      const container = document.getElementById("notifications-content");
+
+      // Badge
+      badge.textContent = total > 0 ? total : "";
+
+      // Affichage dans la section
+      if (total === 0) {
+        container.innerHTML = "<p>Aucune notification.</p>";
+      } else {
+        container.innerHTML = "";
+
+        if (nbEcheancesUrgentes > 0) {
+          const ech = document.createElement("div");
+          ech.className = "notification-item urgent";
+          ech.innerHTML = `🔔 Vous avez <strong>${nbEcheancesUrgentes}</strong> échéance(s) urgente(s)`;
+          container.appendChild(ech);
+        }
+
+        if (nbMessagesNonLus > 0) {
+          const msg = document.createElement("div");
+          msg.className = "notification-item";
+          msg.innerHTML = `📩 Vous avez <strong>${nbMessagesNonLus}</strong> message(s) non lu(s)`;
+          container.appendChild(msg);
+        }
+
+           const nbr = document.getElementById("notification-txt");
+        nbr.innerText = nbEcheancesUrgentes + nbMessagesNonLus;
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById("notifications-content").innerHTML =
+        "<p>Erreur lors du chargement des notifications.</p>";
+    });
+}
+</script>
+
 </body>
 </html>

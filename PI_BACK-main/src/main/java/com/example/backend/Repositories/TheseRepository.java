@@ -16,6 +16,8 @@ import org.springframework.stereotype.Repository;
 public interface TheseRepository extends JpaRepository<These, Long> {
     These findByDoctorantId(Long doctorantId);
 
+    List<These> findByEncadrant_Id(Long id);
+
     // Optional<These> findById(Long id);
     List<These> findByStatut(These.Statut statut);
 

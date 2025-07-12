@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/dashboard.css">
   <script src="../js/main.js" defer></script>
+    <script src="../js/profile.js" defer></script>
+
   <script src="../js/dashboard.js" defer></script>
 </head>
 <body>
@@ -304,6 +306,232 @@
           <p>Review and provide feedback on thesis submissions</p>
         </div>
         <!-- Review management content -->
+      </section>
+
+      <!-- section messagerie  -->
+       <section id="messages" class="dashboard-section">
+  
+
+  <div id="messaging-interface" class="messaging-container">
+    <!-- Liste des conversations -->
+    <div class="conversation-list">
+      
+      <div class="conversation-header">Conversations</div>
+      <ul id="conversationList">
+        <li class="loading">Chargement...</li>
+      </ul>
+
+      <div class="new-conversation-wrapper">
+  <button id="toggleNewConversation" class="new-conversation-toggle">+</button>
+
+  <div id="newConversationForm" class="new-conversation-form hidden">
+    <input type="email" id="newConversationEmail" placeholder="Email du contact..." />
+    <button id="startConversationBtn">Commencer</button>
+  </div>
+</div>
+
+    </div>
+
+    <!-- Zone de chat -->
+    <div class="chat-box">
+      <div id="chatHeader" class="chat-header">Conversation</div>
+      <div id="chatWindow" class="chat-window">
+        <p>Sélectionnez une conversation</p>
+      </div>
+
+      <form id="sendMessageForm" class="chat-form">
+        <input type="hidden" id="receiverEmail" />
+        <textarea id="messageContent" placeholder="Écrivez un message..." required></textarea>
+        <div class="form-actions">
+          <input type="file" id="fileInput" accept="image/*,.pdf" />
+          <button type="submit">Envoyer</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+
+           <!-- Section Profil -->
+      <section id="profile" class="dashboard-section">
+        <div class="section-header">
+          <h2>Mon Profil</h2>
+          <p>Gérez vos informations personnelles et académiques</p>
+        </div>
+        
+        <div class="profile-container">
+          <div class="profile-header">
+            <div class="profile-avatar">
+              <div class="avatar-placeholder large">JD</div>
+              <button class="avatar-upload">
+                <span>Changer la photo</span>
+              </button>
+            </div>
+            <div class="profile-summary">
+              <h3 id="profile-name">Jean Dupont</h3>
+              <p id="profile-school">École d'Ingénierie</p>
+              <!-- <p id="profile-status">Doctorant (2ème année)</p> -->
+              <div class="profile-actions">
+                <button id="edit-profile-btn" class="btn btn-secondary">Modifier le profil</button>
+              </div>
+            </div>
+          </div>
+          
+          <div class="profile-content">
+            <div class="profile-section">
+              <h3>Informations personnelles</h3>
+              <div class="profile-info-grid" id="personal-info">
+                <div class="info-group">
+                  <span class="info-label">Nom complet</span>
+                  <span class="info-value">Jean Dupont</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Email</span>
+                  <span class="info-value">jean.dupont@universite.edu</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">ID Étudiant</span>
+                  <span class="info-value">PHD20230015</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Téléphone</span>
+                  <span class="info-value">+33 6 12 34 56 78</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Date de naissance</span>
+                  <span class="info-value">15 mars 1990</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Nationalité</span>
+                  <span class="info-value">Française</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="profile-section">
+              <h3>Informations académiques</h3>
+              <div class="profile-info-grid" id="academic-info">
+                <div class="info-group">
+                  <span class="info-label">École doctorale</span>
+                  <span class="info-value">École d'Ingénierie</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Unité de recherche</span>
+                  <span class="info-value">Unité de recherche en informatique</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Directeur de thèse</span>
+                  <span class="info-value">Prof. Bernard Simon</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Superviseur de thèse</span>
+                  <span class="info-value">Dr. Alice Dubois</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Date inscription</span>
+                  <span class="info-value">5 septembre 2023</span>
+                </div>
+                <div class="info-group">
+                  <span class="info-label">Fin prévue</span>
+                  <span class="info-value">Septembre 2026</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Formulaire de modification de profil (caché par défaut) -->
+          <div class="profile-edit-form hidden" id="profile-edit-form">
+            <div class="form-header">
+              <h3>Modifier les informations du profil</h3>
+              <button id="cancel-edit-btn" class="btn btn-text">Annuler</button>
+            </div>
+            
+            <form id="edit-profile-form">
+              <div class="form-tabs">
+                <button type="button" class="form-tab active" data-tab="personal">Infos personnelles</button>
+                <button type="button" class="form-tab" data-tab="academic">Infos académiques</button>
+              </div>
+              
+              <div class="form-tab-content active" id="tab-personal">
+                <div class="form-group-row">
+                  <div class="form-group">
+                    <label for="edit-firstname">Prénom</label>
+                    <input type="text" id="edit-firstname" name="firstname" value="Jean">
+                  </div>
+                  <div class="form-group">
+                    <label for="edit-lastname">Nom</label>
+                    <input type="text" id="edit-lastname" name="lastname" value="Dupont">
+                  </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-email">Adresse email</label>
+                    <input type="email" id="edit-email" name="email" value="jean.dupont@universite.edu">
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-phone">Numéro de téléphone</label>
+                    <input type="tel" id="edit-phone" name="phone" value="+33 6 12 34 56 78">
+                </div>
+                
+                <div class="form-group-row">
+                    <div class="form-group">
+                        <label for="edit-birth-date">Date de naissance</label>
+                        <input type="date" id="edit-birth-date" name="birth-date" value="1990-03-15">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-nationality">Nationalité</label>
+                        <input type="text" id="edit-nationality" name="nationality" value="Française">
+                    </div>
+                </div>
+              </div>
+              
+              <div class="form-tab-content" id="tab-academic">
+                <div class="form-group">
+                    <label for="edit-matricule">ID Étudiant (Matricule)</label>
+                    <input type="text" id="edit-matricule" name="matricule" value="PHD20230015" readonly>
+                    <small class="form-note">L'ID étudiant ne peut pas être modifié</small>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-research-unit">Unité de recherche</label>
+                    <select id="edit-research-unit" name="research-unit">
+                        <option value="unit1" selected>Unité de recherche en informatique</option>
+                        <option value="unit2">Unité de recherche biomédicale</option>
+                        <option value="unit3">Unité de recherche en physique</option>
+                        <option value="unit4">Unité de recherche en économie</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="edit-doctoral-school">École doctorale</label>
+                    <select id="edit-doctoral-school" name="doctoral-school">
+                        <option value="school1" selected>École d'Ingénierie</option>
+                        <option value="school2">École des Sciences</option>
+                        <option value="school3">École de Médecine</option>
+                        <option value="school4">École de Commerce</option>
+                    </select>
+                </div>
+                
+                <div class="form-group-row">
+                    <div class="form-group">
+                        <label for="edit-enrollment-date">Date d'inscription</label>
+                        <input type="date" id="edit-enrollment-date" name="enrollment-date" value="2023-09-05" readonly>
+                        <small class="form-note">La date d'inscription ne peut pas être modifiée</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-expected-completion">Fin prévue</label>
+                        <input type="date" id="edit-expected-completion" name="expected-completion" value="2026-09-05">
+                    </div>
+                </div>
+              </div>
+              
+              <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Enregistrer</button>
+              </div>
+            </form>
+          </div>
+        </div>
       </section>
       
       <section id="meetings" class="dashboard-section">

@@ -26,5 +26,5 @@ public class Encadrant { // Supervisor -> Superviseur
 
     @OneToOne
     @JoinColumn(name = "user_id")
-    private Users utilisateur; // user -> utilisateur
+    private Users user; // user -> utilisateur
 }

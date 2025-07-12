@@ -414,3 +414,79 @@ document.addEventListener("DOMContentLoaded", () => {
   if (avatarPlaceholder2) avatarPlaceholder2.textContent = initials;
 });
 
+
+document.addEventListener("DOMContentLoaded", () => {
+  const these = JSON.parse(localStorage.getItem("these"));
+  if (!these) return;
+
+  const infoContainer = document.getElementById("thesis-info");
+  const editForm = document.getElementById("edit-thesis-form");
+
+  // Affichage des détails
+  if (infoContainer && these) {
+    infoContainer.querySelector(".info-group:nth-child(1) .info-value").textContent = these.titre || "";
+    infoContainer.querySelector(".info-group:nth-child(2) .info-value").textContent = these.resume || "";
+    infoContainer.querySelector(".info-group:nth-child(3) .keyword-list").innerHTML = these.motclesString
+      ? these.motclesString.split(',').map(m => `<span class="keyword">${m.trim()}</span>`).join('')
+      : "<span class='keyword'>Aucun</span>";
+    infoContainer.querySelector(".info-group:nth-child(4) .info-value").textContent = new Date(these.dateInscription)
+      .toLocaleDateString("fr-FR", { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  // Remplissage du formulaire d'édition
+  if (editForm && these) {
+    document.getElementById("edit-thesis-title").value = these.titre || "";
+    document.getElementById("edit-thesis-summary").value = these.resume || "";
+    document.getElementById("edit-keywords").value = these.motclesString || "";
+  }
+
+  // Afficher / cacher formulaire
+  const editBtn = document.getElementById("edit-thesis-btn");
+  const cancelBtn = document.getElementById("cancel-thesis-edit");
+  const editBlock = document.getElementById("thesis-edit-form");
+
+  if (editBtn) {
+    editBtn.addEventListener("click", () => {
+      editBlock.classList.remove("hidden");
+      infoContainer.classList.add("hidden");
+    });
+  }
+
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", () => {
+      editBlock.classList.add("hidden");
+      infoContainer.classList.remove("hidden");
+    });
+  }
+
+  // Sauvegarde modifications
+  editForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const titre = document.getElementById("edit-thesis-title").value;
+    const resume = document.getElementById("edit-thesis-summary").value;
+    const motcles = document.getElementById("edit-keywords").value;
+
+    // MAJ localStorage
+    const updatedThese = {
+      ...these,
+      titre: titre,
+      resume: resume,
+      motclesString: motcles
+    };
+
+    localStorage.setItem("these", JSON.stringify(updatedThese));
+
+    // Rafraîchir affichage
+    infoContainer.querySelector(".info-group:nth-child(1) .info-value").textContent = titre;
+    infoContainer.querySelector(".info-group:nth-child(2) .info-value").textContent = resume;
+    infoContainer.querySelector(".info-group:nth-child(3) .keyword-list").innerHTML = motcles
+      ? motcles.split(',').map(m => `<span class="keyword">${m.trim()}</span>`).join('')
+      : "<span class='keyword'>Aucun</span>";
+
+    editBlock.classList.add("hidden");
+    infoContainer.classList.remove("hidden");
+
+    showToast("Thèse mise à jour avec succès", "success");
+  });
+});
+

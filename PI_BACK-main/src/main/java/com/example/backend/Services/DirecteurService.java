@@ -29,7 +29,7 @@ public class DirecteurService {
     }
 
     public Optional<Directeur> getDirecteurByUserId(Long userId) {
-        return directeurRepository.findByUtilisateurId(userId);
+        return directeurRepository.findByUserId(userId);
     }
 
     public Directeur saveDirecteur(Directeur directeur) {
@@ -50,12 +50,12 @@ public class DirecteurService {
         dto.setDomaine(directeur.getDomaine());
         dto.setAnneeDiplome(directeur.getAnneeDiplome());
 
-        if (directeur.getUtilisateur() != null) {
-            dto.setNomUtilisateur(directeur.getUtilisateur().getFirstName());
-            dto.setEmailUtilisateur(directeur.getUtilisateur().getEmail());
+        if (directeur.getUser() != null) {
+            dto.setNomUtilisateur(directeur.getUser().getFirstName());
+            dto.setEmailUtilisateur(directeur.getUser().getEmail());
 
-            if (directeur.getUtilisateur().getEtablissement() != null) {
-                dto.setEtablissementNom(directeur.getUtilisateur().getEtablissement().getNom());
+            if (directeur.getUser().getEtablissement() != null) {
+                dto.setEtablissementNom(directeur.getUser().getEtablissement().getNom());
             }
         }
 

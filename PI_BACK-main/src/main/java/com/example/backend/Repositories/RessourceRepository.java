@@ -10,18 +10,20 @@ import java.util.List;
 
 @Repository
 public interface RessourceRepository extends JpaRepository<Ressource, Long> {
-    
+
     // Trouver toutes les ressources ajoutées par un utilisateur
     List<Ressource> findByUserId(Long userId);
-    
+
+    List<Ressource> findAllByOrderByIdDesc(); // tri par dernier ajouté
+
     // Trouver les ressources par titre (recherche)
     @Query("SELECT r FROM Ressource r WHERE r.titre LIKE %:titre%")
     List<Ressource> findByTitreContaining(@Param("titre") String titre);
-    
+
     // Trouver les ressources par description (recherche)
     @Query("SELECT r FROM Ressource r WHERE r.description LIKE %:description%")
     List<Ressource> findByDescriptionContaining(@Param("description") String description);
-    
+
     // Trouver toutes les ressources triées par titre
     @Query("SELECT r FROM Ressource r ORDER BY r.titre ASC")
     List<Ressource> findAllOrderByTitre();

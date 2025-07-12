@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface DirecteurRepository extends JpaRepository<Directeur, Long> {
     Optional<Directeur> findById(Long id);
 
-    Optional<Directeur> findByUtilisateurId(Long userId);
+    Optional<Directeur> findByUserId(Long userId);
 
     // Optional<Docteur> findByEmail(String email );
     // Optional<Docteur> findByPhoneNumber(String phoneNumber );

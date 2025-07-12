@@ -29,7 +29,7 @@ public class EncadrantService {
     }
 
     public Optional<Encadrant> getEncadrantByUserId(Long userId) {
-        return encadrantRepository.findByUtilisateurId(userId);
+        return encadrantRepository.findByUserId(userId);
     }
 
     public Encadrant saveEncadrant(Encadrant encadrant) {
@@ -61,12 +61,12 @@ public class EncadrantService {
         dto.setGrade(encadrant.getGrade());
         dto.setSpecialite(encadrant.getSpecialite());
 
-        if (encadrant.getUtilisateur() != null) {
-            dto.setNomUtilisateur(encadrant.getUtilisateur().getFirstName());
-            dto.setEmailUtilisateur(encadrant.getUtilisateur().getEmail());
+        if (encadrant.getUser() != null) {
+            dto.setNomUtilisateur(encadrant.getUser().getFirstName());
+            dto.setEmailUtilisateur(encadrant.getUser().getEmail());
 
-            if (encadrant.getUtilisateur().getEtablissement() != null) {
-                dto.setEtablissementNom(encadrant.getUtilisateur().getEtablissement().getNom());
+            if (encadrant.getUser().getEtablissement() != null) {
+                dto.setEtablissementNom(encadrant.getUser().getEtablissement().getNom());
             }
         }
 
