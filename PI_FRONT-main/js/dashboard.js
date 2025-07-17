@@ -266,6 +266,24 @@ async function loadDashboardData() {
     document.getElementById("stat-statut").textContent = data.statutThese;
     document.getElementById("stat-temps").textContent = calculerTempsRestant(data.anneeInscription);
 
+    // Traitement des mots-clés depuis le localStorage
+    const these = JSON.parse(localStorage.getItem('these'));
+    if (these && these.motClesString) {
+      const motClesArray = these.motClesString.split(',').map(keyword => keyword.trim());
+      const keywordsContainer = document.querySelector('.keyword-list');
+
+      if (keywordsContainer) {
+        keywordsContainer.innerHTML = ''; // Clear existing
+
+        motClesArray.forEach(keyword => {
+          const span = document.createElement('span');
+          span.className = 'keyword';
+          span.textContent = keyword;
+          keywordsContainer.appendChild(span);
+        });
+      }
+    }
+
   } catch (err) {
     console.error("Erreur lors du chargement du tableau de bord :", err);
   }
